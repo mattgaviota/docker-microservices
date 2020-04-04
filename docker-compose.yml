@@ -1,0 +1,15 @@
+version: "3.3"
+
+services:
+  api-php:
+    build: ./api-php/
+    volumes:
+      - ./api-php/src:/var/www/html
+    ports:
+      - 8000:8080
+    networks:
+      - backend
+
+networks:
+  backend:
+    external: true
