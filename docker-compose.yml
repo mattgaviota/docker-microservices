@@ -9,6 +9,14 @@ services:
       - 8000:8080
     networks:
       - backend
+  api-python:
+    image: tiangolo/uvicorn-gunicorn-fastapi:python3.7-alpine3.8
+    volumes:
+      - ./api-python/app:/app
+    ports:
+      - 8001:80
+    networks:
+      - backend
 
 networks:
   backend:
