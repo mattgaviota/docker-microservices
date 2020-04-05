@@ -12,5 +12,5 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    return response()->json(["hello" => "world from PHP Lumen"]);
 });

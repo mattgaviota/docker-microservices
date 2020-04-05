@@ -15,6 +15,7 @@ services:
       - ./api-python/app:/app
     ports:
       - 8001:80
+    command: ["/start-reload.sh"]
     networks:
       - backend
 
