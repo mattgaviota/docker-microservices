@@ -11,6 +11,6 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return response()->json(["hello" => "world from PHP Lumen"]);
+$router->get('/api', function () use ($router) {
+    return response()->json(["message" => "Hello world from PHP Lumen"]);
 });

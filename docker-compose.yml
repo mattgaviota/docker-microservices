@@ -9,16 +9,26 @@ services:
       - 8000:8080
     networks:
       - backend
+  api-node:
+    build: ./api-node/
+    volumes:
+      - ./api-node/:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 8001:8001
+    command: npm start
+    networks:
+      - backend
   api-python:
     image: tiangolo/uvicorn-gunicorn-fastapi:python3.7-alpine3.8
     volumes:
       - ./api-python/app:/app
     ports:
-      - 8001:80
+      - 8002:80
     command: ["/start-reload.sh"]
     networks:
       - backend
 
 networks:
   backend:
-    external: true
+    driver: "bridge"
