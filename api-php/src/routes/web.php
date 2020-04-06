@@ -11,6 +11,10 @@
 |
 */
 
-$router->get('/api', function () use ($router) {
-    return response()->json(["message" => "Hello world from PHP Lumen"]);
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->post('/login', 'AuthController@login');
+    $router->post('/signin', 'AuthController@signin');
+    $router->group(['middleware' => 'auth'], function () use ($router) {
+        $router->get('/validate', 'AuthController@validateUser');
+    });
 });
