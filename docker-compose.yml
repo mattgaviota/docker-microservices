@@ -30,6 +30,10 @@ services:
       - backend
   proxy:
     image: nginx:alpine
+    depends_on:
+      - api-node
+      - api-php
+      - api-python
     volumes:
       - ./default.conf:/etc/nginx/conf.d/default.conf
     ports:

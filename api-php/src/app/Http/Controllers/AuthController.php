@@ -8,6 +8,10 @@ use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
+
+/**
+ * @OA\Info(title="User service API", version="0.1")
+ */
 class AuthController extends Controller
 {
     public function __construct()
@@ -26,6 +30,33 @@ class AuthController extends Controller
         return JWT::encode($payload, env('JWT_SECRET'));
     }
 
+
+    /**
+     * @OA\Post(
+     *     path="/api/login",
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="email",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="password",
+     *                     type="string"
+     *                 ),
+     *                 example={"email": "test@test.test", "password": "12345"}
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="200",
+     *          description="Json web Token",
+     *     ),
+     *     @OA\Response(response=400, description="Email or Password is wrong"),
+     * )
+     */
     public function login(Request $request)
     {
         $errors = $this->validator->authenticateValidation($request);
