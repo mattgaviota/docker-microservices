@@ -31,10 +31,129 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "JWT"
+                        "description": "Json web Token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        },
+                                        "errors": {}
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "data": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+                                        "errors": "[]"
+                                    }
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "Email or Password is wrong"
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                }
+            }
+        },
+        "/api/validate": {
+            "post": {
+                "operationId": "App\\Http\\Controllers\\AuthController::validateUser",
+                "responses": {
+                    "200": {
+                        "description": "Logged User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {},
+                                        "errors": {}
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "data": {
+                                            "id": 1,
+                                            "name": "Matt",
+                                            "email": "matt@test.test"
+                                        },
+                                        "errors": "[]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User could not be validated"
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                }
+            }
+        },
+        "/api/signin": {
+            "post": {
+                "operationId": "App\\Http\\Controllers\\AuthController::signin",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "confirmed_password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "name": "Matias Novoa",
+                                    "email": "test@test.test",
+                                    "password": "12345",
+                                    "confirmed_password": "12345"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Logged User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {},
+                                        "errors": {}
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "data": {
+                                            "id": 1,
+                                            "name": "Matt",
+                                            "email": "matt@test.test"
+                                        },
+                                        "errors": "[]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "User could not be created"
+                    },
+                    "422": {
+                        "description": "Validation Error"
                     }
                 }
             }
