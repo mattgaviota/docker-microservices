@@ -20,7 +20,7 @@ services:
     networks:
       - backend
   api-python:
-    image: tiangolo/uvicorn-gunicorn-fastapi:python3.7-alpine3.8
+    build: ./api-python/ 
     volumes:
       - ./api-python/app:/app
     ports:

@@ -47,7 +47,7 @@ class Authenticate
             $credentials = JWT::decode($token, env('JWT_SECRET'), ['HS256']);
         } catch(ExpiredException $e) {
             return response()->json(['data' => [], 'errors' => ['Provided token is expired']], 401);
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             return response()->json(['data' => [], 'errors' => ['An error while decoding token']], 401);
         }
         try {
