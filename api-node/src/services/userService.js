@@ -1,6 +1,6 @@
 const { User } = require('../models')
 
-const listUsers = async (res, req, next) => {
+const listUsers = async (req, res, next) => {
   try {
     const users = await User.findAndCountAll()
 

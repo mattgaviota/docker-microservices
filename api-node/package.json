@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "standard --fix",
     "dev": "nodemon src/index.js",
-    "start": "NODE_ENV=production node src/index.js"
+    "start": "nodemon src/index.js"
   },
   "keywords": [],
   "author": "",

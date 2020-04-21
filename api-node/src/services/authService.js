@@ -11,6 +11,7 @@ const signin = async (req, res, next) => {
       throw new Error('User not found')
     }
 
+    console.log('user', user)
     const hashed = user.password
     const isValid = await comparePassword(password, hashed)
     if (!isValid) {
@@ -18,12 +19,12 @@ const signin = async (req, res, next) => {
     }
 
     const token = generateToken(user)
-    return {
+    return res.status(200).send({
       id: user.id,
       name: user.name,
       email: user.email,
       token
-    }
+    })
   } catch (err) {
     return next(err)
   }
