@@ -13,7 +13,7 @@
 
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('/login', 'AuthController@login');
-    $router->post('/signin', 'AuthController@signin');
+    $router->post('/signup', 'AuthController@signup');
     $router->group(['middleware' => 'auth'], function () use ($router) {
         $router->get('/validate', 'AuthController@validateUser');
     });

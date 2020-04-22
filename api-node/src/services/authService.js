@@ -11,7 +11,6 @@ const signin = async (req, res, next) => {
       throw new Error('User not found')
     }
 
-    console.log('user', user)
     const hashed = user.password
     const isValid = await comparePassword(password, hashed)
     if (!isValid) {

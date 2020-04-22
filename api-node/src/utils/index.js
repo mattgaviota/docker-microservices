@@ -8,8 +8,9 @@ function generateToken (user) {
   const { JWT_SECRET } = process.env
 
   const payload = {
-    exp: Math.floor(Date.now() / 1000) + (60 * 60), // 1 hour
-    sub: user.id
+    iss: 'ancud-jwt',
+    sub: user.id,
+    exp: Math.floor(Date.now() / 1000) + (60 * 60) // 1 hour
   }
   const token = jwt.sign(payload, JWT_SECRET)
   return token

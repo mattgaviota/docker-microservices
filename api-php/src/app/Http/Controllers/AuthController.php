@@ -205,7 +205,7 @@ class AuthController extends Controller
      *     @OA\Response(response=422, description="Validation Error"),
      * )
      */
-    public function signin(Request $request)
+    public function signup(Request $request)
     {
         $errors = $this->validator->createUserValidation($request);
         if (! empty($errors)) {
