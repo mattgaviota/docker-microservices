@@ -219,6 +219,7 @@ class AuthController extends Controller
             $newUser = new User();
             $newUser->name = $request->name;
             $newUser->email = $request->email;
+            $newUser->usertype = $request->usertype;
             $newUser->password = Hash::make($request->password);
             $newUser->save();
             return response()->json(['data' => $newUser, 'errors' => []], 201);

@@ -25,6 +25,7 @@ class ValidationHelper
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|min:3',
             'email' => 'required|email',
+            'usertype' => 'in:seller,buyer',
             'password' => 'required|string',
             'confirmed_password' => 'required|string|same:password',
         ]);
