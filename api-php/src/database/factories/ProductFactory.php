@@ -20,8 +20,7 @@ $factory->define(Product::class, function (Faker $faker) {
     return [
         'name' => $faker->word,
         'description' => $faker->sentence($nbWords = 6, $variableNbWords = true),
-        'amount' => $faker->randomDigit,
-        'price' => $faker->randomFloat,
-        'category_id' => factory(App\Category::class),
+        'amount' => $faker->numberBetween(0, 50),
+        'price' => $faker->randomFloat(0, 100, 1000),
     ];
 });
