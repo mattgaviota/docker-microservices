@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     amount: DataTypes.FLOAT,
     price: DataTypes.FLOAT
   }, {
+    paranoid: true,
     underscored: true
   })
   Product.associate = function (models) {
