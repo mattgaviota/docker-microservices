@@ -1,6 +1,6 @@
 FROM tiangolo/uvicorn-gunicorn-fastapi:python3.7-alpine3.8
 
-RUN apk add build-base
+RUN apk --no-cache add build-base bash
 
 COPY ./app/requirements.txt /app/requirements.txt
 

@@ -205,7 +205,7 @@ class AuthController extends Controller
      *     @OA\Response(response=422, description="Validation Error"),
      * )
      */
-    public function signin(Request $request)
+    public function signup(Request $request)
     {
         $errors = $this->validator->createUserValidation($request);
         if (! empty($errors)) {
@@ -219,6 +219,7 @@ class AuthController extends Controller
             $newUser = new User();
             $newUser->name = $request->name;
             $newUser->email = $request->email;
+            $newUser->usertype = $request->usertype;
             $newUser->password = Hash::make($request->password);
             $newUser->save();
             return response()->json(['data' => $newUser, 'errors' => []], 201);
