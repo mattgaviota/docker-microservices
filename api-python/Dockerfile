@@ -6,4 +6,4 @@ COPY ./app/requirements.txt /app/requirements.txt
 
 WORKDIR /app
 
-RUN pip3 install -r requirements.txt
+RUN pip install -U pip && pip install -r requirements.txt
