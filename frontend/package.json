@@ -9,8 +9,8 @@
     "start": "next start"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Javier Ocampo",
+  "license": "MIT",
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
     "nes.css": "^2.3.0",
