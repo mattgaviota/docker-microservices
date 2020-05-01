@@ -1,5 +1,5 @@
 from typing import List
-
+from datetime import datetime
 from pydantic import BaseModel
 
 
@@ -12,8 +12,8 @@ class DetailBase(BaseModel):
 class DetailCreate(DetailBase):
     order_id: int
     product_id: int
-    created_at: datetime.datetime
-    updated_at: datetime.datetime
+    created_at: datetime
+    updated_at: datetime
 
 
 class Detail(DetailBase):
@@ -26,15 +26,15 @@ class Detail(DetailBase):
 
 
 class OrderBase(BaseModel):
-    date: datetime.datetime
+    date: datetime
     total: float
 
 
 class OrderCreate(OrderBase):
     buyer_id: int
     seller_id: int
-    created_at: datetime.datetime
-    updated_at: datetime.datetime
+    created_at: datetime
+    updated_at: datetime
 
 
 class Order(OrderBase):
