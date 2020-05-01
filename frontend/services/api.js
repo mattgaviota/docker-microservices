@@ -1,40 +1,35 @@
-const API_URL = 'http://localhost';
+const API_URL = 'http://localhost'
 
 export async function getData (path, params = {}) {
   const queryString = Object.keys(params)
     .map(key => `${key}=${params[key]}`)
-    .join('&');
+    .join('&')
 
-  const url = queryString ? `${API_URL}${path}?${queryString}` : `${API_URL}${path}`;
+  const url = queryString ? `${API_URL}${path}?${queryString}` : `${API_URL}${path}`
   const headers = {
-    'Content-Type': 'application/json',
-  };
-  const jwt = localStorage.getItem('jwt');
+    'Content-Type': 'application/json'
+  }
+  const jwt = window.localStorage.getItem('jwt')
   if (jwt) {
-    headers.Authorization = `Bearer ${jwt}`;
+    headers.Authorization = `Bearer ${jwt}`
   }
-  const resp = await fetch(url, { headers });
+  const resp = await window.fetch(url, { headers })
 
-  if (resp.ok) {
-    const json = await resp.json();
-
-    return json;
-  }
-  throw Error(`Request rejected with status ${resp.status}`);
+  const json = await resp.json()
+  return json
 }
 
 export async function postData (path, payload) {
-  const url = `${API_URL}${path}`;
+  const url = `${API_URL}${path}`
   const headers = {
-    'Content-Type': 'application/json',
-  };
-  const jwt = localStorage.getItem('jwt');
-  if (jwt) {
-    headers.Authorization = `Bearer ${jwt}`;
+    'Content-Type': 'application/json'
   }
-  const resp = await fetch(url, { method: 'POST', body: JSON.stringify(payload), headers });
+  const jwt = window.localStorage.getItem('jwt')
+  if (jwt) {
+    headers.Authorization = `Bearer ${jwt}`
+  }
+  const resp = await window.fetch(url, { method: 'POST', body: JSON.stringify(payload), headers })
 
-  const json = await resp.json();
-  
-  return json;
+  const json = await resp.json()
+  return json
 }
