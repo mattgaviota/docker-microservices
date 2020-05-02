@@ -9,16 +9,22 @@ import { getData } from '../services/api'
 function StockPage () {
   const [products, setProducts] = useState([])
   const [errors, setErrors] = useState([])
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(10)
+  const [count, setCount] = useState(null)
 
-  async function fetchData () {
+  async function fetchData (params) {
     const token = Cookies.get('auth')
-    const { data } = await getData('/node/api/products', {}, token)
+    const { data, metadata: { page, pageSize, count } } = await getData('/node/api/products', params, token)
     setProducts(data)
+    setPage(page)
+    setPageSize(pageSize)
+    setCount(count)
     setErrors(errors)
   }
 
   useEffect(() => {
-    fetchData()
+    fetchData({ page: 1, pageSize: 10 })
   }, [])
 
   return (
@@ -38,7 +44,14 @@ function StockPage () {
           <Profile />
         </div>
         <div className='products'>
-          <Table columns={['ID', 'Name', 'Description', 'Amount', 'Price']} data={products} />
+          <Table
+            columns={['ID', 'Name', 'Description', 'Amount', 'Price']}
+            data={products}
+            page={page}
+            pageSize={pageSize}
+            count={count}
+            onChange={fetchData}
+          />
         </div>
       </div>
     </Layout>

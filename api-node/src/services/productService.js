@@ -3,14 +3,25 @@ const { Product } = require('../models')
 const listProducts = async (req, res, next) => {
   try {
     const { user } = req
-    const products = await Product.findAll({
+    const { page, pageSize } = req.query
+    const limit = parseInt(pageSize || 10)
+    const offset = parseInt((page - 1) * limit)
+
+    const { rows, count } = await Product.findAndCountAll({
+      limit,
+      offset,
       where: {
         userId: user.id
       }
     })
 
     return res.status(200).send({
-      data: products,
+      data: rows,
+      metadata: {
+        page: parseInt(page),
+        pageSize: parseInt(pageSize),
+        count
+      },
       message: 'success'
     })
   } catch (err) {
