@@ -1,6 +1,6 @@
 const API_URL = 'http://localhost'
 
-export async function getData (path, params = {}) {
+export async function getData (path, params = {}, token = '') {
   const queryString = Object.keys(params)
     .map(key => `${key}=${params[key]}`)
     .join('&')
@@ -9,9 +9,9 @@ export async function getData (path, params = {}) {
   const headers = {
     'Content-Type': 'application/json'
   }
-  const jwt = window.localStorage.getItem('jwt')
-  if (jwt) {
-    headers.Authorization = `Bearer ${jwt}`
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`
   }
   const resp = await window.fetch(url, { headers })
 
@@ -19,14 +19,14 @@ export async function getData (path, params = {}) {
   return json
 }
 
-export async function postData (path, payload) {
+export async function postData (path, payload, token = '') {
   const url = `${API_URL}${path}`
   const headers = {
     'Content-Type': 'application/json'
   }
-  const jwt = window.localStorage.getItem('jwt')
-  if (jwt) {
-    headers.Authorization = `Bearer ${jwt}`
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`
   }
   const resp = await window.fetch(url, { method: 'POST', body: JSON.stringify(payload), headers })
 
