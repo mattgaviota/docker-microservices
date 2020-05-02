@@ -12,14 +12,18 @@ function StockPage () {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
   const [count, setCount] = useState(null)
+  const [user, setUser] = useState(null)
 
   async function fetchData (params) {
     const token = Cookies.get('auth')
     const { data, metadata: { page, pageSize, count } } = await getData('/node/api/products', params, token)
+    const { data: user, errors } = await getData('/php/api/validate', {}, token)
+    console.log('user', user)
     setProducts(data)
     setPage(page)
     setPageSize(pageSize)
     setCount(count)
+    setUser(user)
     setErrors(errors)
   }
 
@@ -41,7 +45,7 @@ function StockPage () {
       </style>
       <div className='stock-container'>
         <div className='profile'>
-          <Profile />
+          {user && <Profile data={user} />}
         </div>
         <div className='products'>
           <Table
