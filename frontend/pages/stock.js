@@ -18,7 +18,7 @@ function StockPage () {
     const token = Cookies.get('auth')
     const { data, metadata: { page, pageSize, count } } = await getData('/node/api/products', params, token)
     const { data: user, errors } = await getData('/php/api/validate', {}, token)
-    console.log('user', user)
+
     setProducts(data)
     setPage(page)
     setPageSize(pageSize)
@@ -39,7 +39,7 @@ function StockPage () {
           justify-content: space-around;
         }
         .profile, .products {
-          padding: 10px;
+          margin: 0 10px;
         }
       `}
       </style>
@@ -47,7 +47,8 @@ function StockPage () {
         <div className='profile'>
           {user && <Profile data={user} />}
         </div>
-        <div className='products'>
+        <div className='nes-container with-title products'>
+          <p className='title'>Products</p>
           <Table
             columns={['ID', 'Name', 'Description', 'Amount', 'Price']}
             data={products}
