@@ -4,7 +4,7 @@ const { Product, Category } = require('../models')
 const listProducts = async (req, res, next) => {
   try {
     const { user } = req
-    const { name, page, pageSize } = req.query
+    const { name, category, page, pageSize } = req.query
     const limit = pageSize ? parseInt(pageSize) : 10
     const offset = page ? parseInt((page - 1) * limit) : 0
 
@@ -19,6 +19,9 @@ const listProducts = async (req, res, next) => {
         userId: user.id,
         name: {
           [Op.iLike]: `%${name || ''}%`
+        },
+        '$category.name$': {
+          [Op.iLike]: `%${category || ''}%`
         }
       }
     })
