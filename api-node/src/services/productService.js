@@ -4,8 +4,8 @@ const listProducts = async (req, res, next) => {
   try {
     const { user } = req
     const { page, pageSize } = req.query
-    const limit = parseInt(pageSize || 10)
-    const offset = parseInt((page - 1) * limit)
+    const limit = pageSize ? parseInt(pageSize) : 10
+    const offset = page ? parseInt((page - 1) * limit) : 0
 
     const { rows, count } = await Product.findAndCountAll({
       limit,
