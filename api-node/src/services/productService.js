@@ -1,17 +1,25 @@
-const { Product } = require('../models')
+const { Op } = require('sequelize')
+const { Product, Category } = require('../models')
 
 const listProducts = async (req, res, next) => {
   try {
     const { user } = req
-    const { page, pageSize } = req.query
+    const { name, page, pageSize } = req.query
     const limit = pageSize ? parseInt(pageSize) : 10
     const offset = page ? parseInt((page - 1) * limit) : 0
 
     const { rows, count } = await Product.findAndCountAll({
       limit,
       offset,
+      include: {
+        model: Category,
+        as: 'category'
+      },
       where: {
-        userId: user.id
+        userId: user.id,
+        name: {
+          [Op.iLike]: `%${name || ''}%`
+        }
       }
     })
 
