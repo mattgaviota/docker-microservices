@@ -22,7 +22,14 @@ function StockPage () {
     const { data: categories } = await getData('/node/api/categories', {}, token)
     const { data: user, errors } = await getData('/php/api/validate', {}, token)
 
-    setProducts(products)
+    setProducts(products.map(p => ({
+      id: p.id,
+      name: p.name,
+      description: p.description,
+      amount: p.amount,
+      price: p.price,
+      category: p.category.name
+    })))
     setCategories(categories)
     setPage(page)
     setPageSize(pageSize)
@@ -75,7 +82,7 @@ function StockPage () {
             </div>
           </div>
           <Table
-            columns={['ID', 'Name', 'Description', 'Amount', 'Price']}
+            columns={['ID', 'Name', 'Description', 'Amount', 'Price', 'Category']}
             data={products}
             page={page}
             pageSize={pageSize}
