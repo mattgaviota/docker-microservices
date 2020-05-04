@@ -3,6 +3,7 @@ import Cookies from 'js-cookie'
 import Layout from '../components/Layout'
 import Profile from '../components/Profile'
 import Table from '../components/Table'
+import Menu from '../components/Menu'
 import { handleAuthSSR } from '../lib/auth'
 import { getData } from '../services/api'
 
@@ -68,6 +69,7 @@ function StockPage () {
       <div className='stock-container'>
         <div className='profile'>
           {user && <Profile data={user} />}
+          <Menu />
         </div>
         <div className='nes-container with-title products'>
           <p className='title'>Products</p>
