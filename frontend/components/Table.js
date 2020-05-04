@@ -1,5 +1,5 @@
 export default function Table ({ columns, data, page, pageSize, count, onChange }) {
-  const pages = Array(count / pageSize).fill(0).map((_, i) => i + 1)
+  const pages = Array(Math.ceil(count / pageSize)).fill(0).map((_, i) => i + 1)
 
   function handleOnChange (newPage) {
     if (newPage >= 1 && newPage <= pages.length) {

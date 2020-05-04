@@ -6,7 +6,7 @@ const listCategories = async (req, res, next) => {
 
     return res.status(200).send({
       data: rows,
-      message: 'success'
+      errors: []
     })
   } catch (err) {
     return next(err)

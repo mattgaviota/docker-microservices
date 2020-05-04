@@ -33,7 +33,7 @@ const listProducts = async (req, res, next) => {
         pageSize: parseInt(pageSize),
         count
       },
-      message: 'success'
+      errors: []
     })
   } catch (err) {
     return next(err)
