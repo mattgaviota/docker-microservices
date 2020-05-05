@@ -1,24 +1,28 @@
 import Router from 'next/router'
-import Cookies from 'js-cookie'
 import React, { useState } from 'react'
 import { postData } from '../services/api'
 
-function LoginPage (props) {
+function RegisterPage (props) {
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [usertype, setUsertype] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmedPassword, setConfirmedPassword] = useState('')
   const [errors, setErrors] = useState([])
 
   async function handleSubmit (e) {
     e.preventDefault()
-    const { data: token, errors } = await postData('/php/api/login', {
+    const { errors } = await postData('/php/api/signup', {
+      name,
       email,
-      password
+      usertype,
+      password,
+      confirmed_password: confirmedPassword
     })
     if (errors.length > 0) {
       setErrors(errors)
     } else {
-      Cookies.set('auth', token)
-      Router.push('/stock')
+      Router.push('/')
     }
   }
 
@@ -33,8 +37,18 @@ function LoginPage (props) {
       `}
       </style>
       <div className='nes-container with-title'>
-        <p className='title'>Login</p>
+        <p className='title'>Register</p>
         <form onSubmit={handleSubmit}>
+          <div className='nes-field'>
+            <label htmlFor='name'>Name</label>
+            <input
+              type='text'
+              id='name'
+              className={errors.length ? 'nes-input is-error' : 'nes-input'}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
           <div className='nes-field'>
             <label htmlFor='email'>Email</label>
             <input
@@ -46,6 +60,16 @@ function LoginPage (props) {
             />
           </div>
           <div className='nes-field'>
+            <label htmlFor='usertype'>Rol</label>
+            <div className='nes-select'>
+              <select required defaultValue='' id='usertype' onChange={(e) => setUsertype(e.target.value)}>
+                <option value='' disabled hidden>Select...</option>
+                <option value='seller'>Seller</option>
+                <option value='buyer'>Buyer</option>
+              </select>
+            </div>
+          </div>
+          <div className='nes-field'>
             <label htmlFor='password'>Password</label>
             <input
               type='password'
@@ -53,6 +77,16 @@ function LoginPage (props) {
               className={errors.length ? 'nes-input is-error' : 'nes-input'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <div className='nes-field'>
+            <label htmlFor='confirmed-password'>Confirm password</label>
+            <input
+              type='password'
+              id='confirmed-password'
+              className={errors.length ? 'nes-input is-error' : 'nes-input'}
+              value={confirmedPassword}
+              onChange={(e) => setConfirmedPassword(e.target.value)}
             />
           </div>
           {errors.length > 0 && (
@@ -72,15 +106,13 @@ function LoginPage (props) {
             }}
           >
             <button type='submit' className='nes-btn is-primary'>
-              Login
+              Register
             </button>
           </div>
-          <br />
-          <p>Have not an account yet? <span className='nes-text is-primary' onClick={() => Router.push('/register')}>Sign up</span></p>
         </form>
       </div>
     </div>
   )
 }
 
-export default LoginPage
+export default RegisterPage
