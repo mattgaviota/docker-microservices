@@ -14,7 +14,7 @@ export default function Profile ({ data }) {
       `}
       </style>
       <p className='title'>Profile</p>
-      <div>
+      <div className='profile'>
         <img src={`https://api.adorable.io/avatars/200/${email}.png`} />
         <div className='profile-info'>
           <div>ID: {id}</div>
