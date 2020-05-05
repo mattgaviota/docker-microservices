@@ -1,13 +1,41 @@
+import React, { useState, useEffect } from 'react'
+import Cookies from 'js-cookie'
 import Head from 'next/head'
+import Profile from './Profile'
+import Menu from './Menu'
+import { getData } from '../services/api'
 
 export default function Layout ({ children, title }) {
+  const [errors, setErrors] = useState([])
+  const [user, setUser] = useState(null)
+
+  async function fetchData () {
+    const token = Cookies.get('auth')
+
+    const { data: user, errors } = await getData('/php/api/validate', {}, token)
+    setUser(user)
+    setErrors(errors)
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
   return (
-    <div className='main-container'>
+    <div className='container'>
       <style jsx>{`
-        .main-container {
-          width: 90%;
-          margin: 0 auto;
+        .container {
           padding: 20px;
+        }
+        .main-content {
+          display: grid;
+          grid-template-columns: 400px 1fr;
+          grid-template-areas:
+          "sidebar content";
+          column-gap: 20px;
+        }
+        .menu {
+          margin-top: 20px;
         }
       `}
       </style>
@@ -16,7 +44,17 @@ export default function Layout ({ children, title }) {
           <title>{title}</title>
         </Head>
         <p className='title'>{title}</p>
-        {children}
+        <div className='main-content'>
+          <div className='sidebar'>
+            {user && <Profile data={user} />}
+            <div className='menu'>
+              <Menu />
+            </div>
+          </div>
+          <div className='content'>
+            {children}
+          </div>
+        </div>
       </div>
     </div>
   )
