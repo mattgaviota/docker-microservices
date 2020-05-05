@@ -6,6 +6,11 @@ export default function Profile ({ data }) {
         .profile img {
           border-radius: 50%;
         }
+        .profile-info {
+          text-align: left;
+          margin-top: 10px;
+          font-size: 14px;
+        }
       `}
       </style>
       <p className='title'>Profile</p>

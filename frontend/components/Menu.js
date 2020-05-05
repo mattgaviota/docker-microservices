@@ -9,14 +9,20 @@ export default function Menu () {
 
   return (
     <div className='nes-container with-title is-centered'>
+      <style jsx>{`
+        .menu-item {
+          margin-bottom: 10px;
+        }
+      `}
+      </style>
       <p className='title'>Menu</p>
-      <div>
+      <div className='menu-item'>
         <button type='button' className='nes-btn' onClick={() => Router.push('/stock')}>Products</button>
       </div>
-      <div>
+      <div className='menu-item'>
         <button type='button' className='nes-btn' onClick={() => Router.push('/categories')}>Categories</button>
       </div>
-      <div>
+      <div className='menu-item'>
         <button type='button' className='nes-btn' onClick={logout}>Logout</button>
       </div>
     </div>
