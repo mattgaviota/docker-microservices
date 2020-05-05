@@ -1,7 +1,7 @@
-export default function Table({ columns, data, page, pageSize, count, onChange }) {
-  const pages = Array(Math.ceil(count / pageSize)).fill(0).map((_, i) => i + 1)
+export default function Table ({ columns, data, page, pageSize, count, onChange }) {
+  const pages = count ? Array(Math.ceil(count / pageSize)).fill(0).map((_, i) => i + 1) : []
 
-  function handleOnChange(newPage) {
+  function handleOnChange (newPage) {
     if (newPage >= 1 && newPage <= pages.length) {
       onChange({ page: newPage, pageSize })
     }
@@ -31,19 +31,20 @@ export default function Table({ columns, data, page, pageSize, count, onChange }
           {data.map((d, i) => <tr key={i}>{columns.map(c => <td key={c.toLowerCase()}>{d[c.toLowerCase()]}</td>)}</tr>)}
         </tbody>
       </table>
-      <div className='pagination'>
-        <span className={page === 1 ? 'pagination-arrow nes-text is-disabled' : 'pagination-arrow'} onClick={() => handleOnChange(page - 1)}>&laquo;</span>
-        {pages.map(p =>
-          <span
-            className={p === page ? 'pagination-item nes-text is-primary' : 'pagination-item nes-text'}
-            key={`p-${p}`}
-            onClick={() => handleOnChange(p)}
-          >
-            {p}
-          </span>
-        )}
-        <span className={page === pages.length ? 'pagination-arrow nes-text is-disabled' : 'pagination-arrow'} onClick={() => handleOnChange(page + 1)}>&raquo;</span>
-      </div>
+      {pages.length > 0 &&
+        <div className='pagination'>
+          <span className={page === 1 ? 'pagination-arrow nes-text is-disabled' : 'pagination-arrow'} onClick={() => handleOnChange(page - 1)}>&laquo;</span>
+          {pages.map(p =>
+            <span
+              className={p === page ? 'pagination-item nes-text is-primary' : 'pagination-item nes-text'}
+              key={`p-${p}`}
+              onClick={() => handleOnChange(p)}
+            >
+              {p}
+            </span>
+          )}
+          <span className={page === pages.length ? 'pagination-arrow nes-text is-disabled' : 'pagination-arrow'} onClick={() => handleOnChange(page + 1)}>&raquo;</span>
+        </div>}
     </div>
   )
 }
