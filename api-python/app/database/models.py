@@ -12,8 +12,8 @@ class Order(Base):
     seller_id = Column(Integer, index=True)
     date = Column(DateTime)
     total = Column(Float)
-    created_at = Column(Datetime)
-    updated_at = Column(Datetime)
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)
 
     details = relationship("Detail", back_populates="order")
 
@@ -27,7 +27,7 @@ class Detail(Base):
     amount = Column(Integer)
     price = Column(Float)
     total = Column(Float)
-    created_at = Column(Datetime)
-    updated_at = Column(Datetime)
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)
 
     order = relationship("Order", back_populates="details")
