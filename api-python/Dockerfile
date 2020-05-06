@@ -1,6 +1,6 @@
 FROM tiangolo/uvicorn-gunicorn-fastapi:python3.7-alpine3.8
 
-RUN apk --no-cache add build-base bash
+RUN apk --no-cache add build-base bash postgresql-dev
 
 COPY ./app/requirements.txt /app/requirements.txt
 
