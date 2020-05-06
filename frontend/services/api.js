@@ -1,3 +1,4 @@
+import fetch from 'node-fetch'
 const API_URL = 'http://localhost'
 
 export async function getData (path, params = {}, token = '') {
@@ -13,7 +14,7 @@ export async function getData (path, params = {}, token = '') {
   if (token) {
     headers.Authorization = `Bearer ${token}`
   }
-  const resp = await window.fetch(url, { headers })
+  const resp = await fetch(url, { headers })
 
   const json = await resp.json()
   return json
@@ -28,7 +29,7 @@ export async function postData (path, payload, token = '') {
   if (token) {
     headers.Authorization = `Bearer ${token}`
   }
-  const resp = await window.fetch(url, { method: 'POST', body: JSON.stringify(payload), headers })
+  const resp = await fetch(url, { method: 'POST', body: JSON.stringify(payload), headers })
 
   const json = await resp.json()
   return json

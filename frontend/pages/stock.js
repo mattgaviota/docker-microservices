@@ -77,7 +77,7 @@ function StockPage () {
   )
 }
 
-StockPage.getInitialProps = (context) => {
+export async function getServerSideProps (context) {
   handleAuthSSR(context)
   return {
     props: {}

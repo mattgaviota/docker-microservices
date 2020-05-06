@@ -32,7 +32,7 @@ function CategoryPage () {
   )
 }
 
-CategoryPage.getInitialProps = (context) => {
+export async function getServerSideProps (context) {
   handleAuthSSR(context)
   return {
     props: {}
