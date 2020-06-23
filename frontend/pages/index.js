@@ -33,6 +33,9 @@ function LoginPage (props) {
         .signup {
           cursor: pointer;
         }
+        .main-container form {
+          width: 360px;
+        }
       `}
       </style>
       <form className='ui huge form error' onSubmit={handleSubmit}>
@@ -44,6 +47,7 @@ function LoginPage (props) {
           <input
             type='text'
             id='email'
+            placeholder='Email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -53,6 +57,7 @@ function LoginPage (props) {
           <input
             type='password'
             id='password'
+            placeholder='Password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

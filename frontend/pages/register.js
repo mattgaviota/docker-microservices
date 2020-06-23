@@ -34,83 +34,85 @@ function RegisterPage (props) {
           justify-content: center;
           margin-top: 10%;
         }
+        .main-container form {
+          width: 360px;
+        }
+        .main-container select {
+          height: 53px !important;
+        }
       `}
       </style>
-      <div className='nes-container with-title'>
-        <p className='title'>Register</p>
-        <form onSubmit={handleSubmit}>
-          <div className='nes-field'>
-            <label htmlFor='name'>Name</label>
-            <input
-              type='text'
-              id='name'
-              className={errors.length ? 'nes-input is-error' : 'nes-input'}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
+      <form className='ui huge form error' onSubmit={handleSubmit}>
+        <div className='ui center aligned fluid container'>
+          <h1 className='ui header'>Register</h1>
+        </div>
+        <div className={errors.length ? 'field error' : 'field'}>
+          <label htmlFor='name'>Name</label>
+          <input
+            type='text'
+            id='name'
+            placeholder='Full Name'
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+        <div className={errors.length ? 'field error' : 'field'}>
+          <label htmlFor='email'>Email</label>
+          <input
+            type='text'
+            id='email'
+            placeholder='Your Email'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className='field'>
+          <label htmlFor='usertype'>Rol</label>
+          <select
+            className='ui search dropdown'
+            required
+            defaultValue=''
+            id='usertype'
+            onChange={(e) => setUsertype(e.target.value)}>
+            <option value='' disabled hidden>Select...</option>
+            <option value='seller'>Seller</option>
+            <option value='buyer'>Buyer</option>
+          </select>
+        </div>
+        <div className={errors.length ? 'field error' : 'field'}>
+          <label htmlFor='password'>Password</label>
+          <input
+            type='password'
+            id='password'
+            placeholder='Password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <div className={errors.length ? 'field error' : 'field'}>
+          <label htmlFor='confirmed-password'>Confirm password</label>
+          <input
+            type='password'
+            id='confirmed-password'
+            placeholder='Confirm Password'
+            value={confirmedPassword}
+            onChange={(e) => setConfirmedPassword(e.target.value)}
+          />
+        </div>
+        {errors.length > 0 && (
+          <div className='ui error message'>
+            {errors.map((e, i) => (
+              <p key={i}>
+                {e}
+              </p>
+            ))}
           </div>
-          <div className='nes-field'>
-            <label htmlFor='email'>Email</label>
-            <input
-              type='text'
-              id='email'
-              className={errors.length ? 'nes-input is-error' : 'nes-input'}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className='nes-field'>
-            <label htmlFor='usertype'>Rol</label>
-            <div className='nes-select'>
-              <select required defaultValue='' id='usertype' onChange={(e) => setUsertype(e.target.value)}>
-                <option value='' disabled hidden>Select...</option>
-                <option value='seller'>Seller</option>
-                <option value='buyer'>Buyer</option>
-              </select>
-            </div>
-          </div>
-          <div className='nes-field'>
-            <label htmlFor='password'>Password</label>
-            <input
-              type='password'
-              id='password'
-              className={errors.length ? 'nes-input is-error' : 'nes-input'}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <div className='nes-field'>
-            <label htmlFor='confirmed-password'>Confirm password</label>
-            <input
-              type='password'
-              id='confirmed-password'
-              className={errors.length ? 'nes-input is-error' : 'nes-input'}
-              value={confirmedPassword}
-              onChange={(e) => setConfirmedPassword(e.target.value)}
-            />
-          </div>
-          {errors.length > 0 && (
-            <div className='nes-field'>
-              {errors.map((e, i) => (
-                <p className='nes-text is-error' key={i}>
-                  {e}
-                </p>
-              ))}
-            </div>
-          )}
-          <div
-            style={{
-              padding: '10px 0',
-              display: 'flex',
-              justifyContent: 'flex-end'
-            }}
-          >
-            <button type='submit' className='nes-btn is-primary'>
-              Register
-            </button>
-          </div>
-        </form>
-      </div>
+        )}
+
+        <button type='submit' className='ui big primary button'>
+          Register
+        </button>
+      </form>
     </div>
   )
 }
