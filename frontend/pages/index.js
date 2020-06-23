@@ -30,55 +30,47 @@ function LoginPage (props) {
           justify-content: center;
           margin-top: 10%;
         }
+        .signup {
+          cursor: pointer;
+        }
       `}
       </style>
-      <div className='nes-container with-title'>
-        <p className='title'>Login</p>
-        <form onSubmit={handleSubmit}>
-          <div className='nes-field'>
-            <label htmlFor='email'>Email</label>
-            <input
-              type='text'
-              id='email'
-              className={errors.length ? 'nes-input is-error' : 'nes-input'}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+      <form className='ui huge form error' onSubmit={handleSubmit}>
+        <div className='ui center aligned fluid container'>
+          <h1 className='ui header'>Sign In</h1>
+        </div>
+        <div className={errors.length ? 'field error' : 'field'}>
+          <label htmlFor='email'>Email</label>
+          <input
+            type='text'
+            id='email'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className={errors.length ? 'field error' : 'field'}>
+          <label htmlFor='password'>Password</label>
+          <input
+            type='password'
+            id='password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        {errors.length > 0 && (
+          <div className='ui error message'>
+            {errors.map((e, i) => (
+              <p key={i}>
+                {e}
+              </p>
+            ))}
           </div>
-          <div className='nes-field'>
-            <label htmlFor='password'>Password</label>
-            <input
-              type='password'
-              id='password'
-              className={errors.length ? 'nes-input is-error' : 'nes-input'}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          {errors.length > 0 && (
-            <div className='nes-field'>
-              {errors.map((e, i) => (
-                <p className='nes-text is-error' key={i}>
-                  {e}
-                </p>
-              ))}
-            </div>
-          )}
-          <div
-            style={{
-              padding: '10px 0',
-              display: 'flex',
-              justifyContent: 'flex-end'
-            }}
-          >
-            <button type='submit' className='nes-btn is-primary'>
-              Login
-            </button>
-          </div>
-          <br />
-          <p>Have not an account yet? <span className='nes-text is-primary' onClick={() => Router.push('/register')}>Sign up</span></p>
-        </form>
-      </div>
+        )}
+        <button type='submit' className='ui big primary button'>
+          Login
+        </button>
+        <p>Have not an account yet? <span className='ui small orange header signup' onClick={() => Router.push('/register')}>Sign up</span></p>
+      </form>
     </div>
   )
 }

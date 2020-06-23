@@ -20,7 +20,8 @@
     "next-cookies": "^2.0.3",
     "node-fetch": "^2.6.0",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "semantic-ui-css": "^2.4.1"
   },
   "devDependencies": {
     "standard": "^14.3.3"
