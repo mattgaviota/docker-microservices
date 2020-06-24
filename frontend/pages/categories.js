@@ -21,13 +21,11 @@ function CategoryPage () {
 
   return (
     <Layout title='Categories'>
-      <div className='nes-container with-title products'>
-        <p className='title'>Categories</p>
-        <Table
-          columns={['ID', 'Name', 'Description']}
-          data={categories}
-        />
-      </div>
+      <h2 className='ui header'>Categories</h2>
+      <Table
+        columns={['ID', 'Name', 'Description']}
+        data={categories}
+      />
     </Layout>
   )
 }
