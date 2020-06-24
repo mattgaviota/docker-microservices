@@ -52,12 +52,17 @@ function StockPage () {
         }
       `}
       </style>
-      <div className='nes-container with-title products'>
-        <p className='title'>Products</p>
-        <div className='nes-container with-title filters'>
-          <p className='title'>Filters</p>
-          <div className='nes-select'>
-            <select id='categories' defaultValue='0' onChange={handleOnChange}>
+      <div className='ui container'>
+        <h2 className='ui header'>Products</h2>
+        <div className='ui container filters'>
+          <h3 className='ui header'>Filters</h3>
+          <div className='field'>
+            <select
+              id='categories'
+              className='ui search dropdown'
+              defaultValue='0'
+              onChange={handleOnChange}
+            >
               <option value='0' disabled hidden>Select...</option>
               <option value=''>All</option>
               {categories.map(c => <option value={c.name} key={c.id}>{c.name}</option>)}

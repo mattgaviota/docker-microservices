@@ -73,7 +73,8 @@ function RegisterPage (props) {
             required
             defaultValue=''
             id='usertype'
-            onChange={(e) => setUsertype(e.target.value)}>
+            onChange={(e) => setUsertype(e.target.value)}
+          >
             <option value='' disabled hidden>Select...</option>
             <option value='seller'>Seller</option>
             <option value='buyer'>Buyer</option>

@@ -22,39 +22,28 @@ export default function Layout ({ children, title }) {
   }, [])
 
   return (
-    <div className='container'>
+    <div className='ui two column grid container'>
       <style jsx>{`
         .container {
           padding: 20px;
-        }
-        .main-content {
-          display: grid;
-          grid-template-columns: 400px 1fr;
-          grid-template-areas:
-          "sidebar content";
-          column-gap: 20px;
         }
         .menu {
           margin-top: 20px;
         }
       `}
       </style>
-      <div className='nes-container with-title'>
-        <Head>
-          <title>{title}</title>
-        </Head>
-        <p className='title'>{title}</p>
-        <div className='main-content'>
-          <div className='sidebar'>
-            {user && <Profile data={user} />}
-            <div className='menu'>
-              <Menu />
-            </div>
-          </div>
-          <div className='content'>
-            {children}
-          </div>
+      <Head>
+        <title>{title}</title>
+      </Head>
+      <div className='four wide column'>
+        <h1 className='ui header'>{title}</h1>
+        {user && <Profile data={user} />}
+        <div className='menu'>
+          <Menu />
         </div>
+      </div>
+      <div className='twelve wide column'>
+        {children}
       </div>
     </div>
   )

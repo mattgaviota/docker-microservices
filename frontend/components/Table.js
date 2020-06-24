@@ -8,20 +8,8 @@ export default function Table ({ columns, data, page, pageSize, count, onChange 
   }
 
   return (
-    <div className='nes-table-responsive'>
-      <style jsx global>{`
-            .pagination {
-              padding: 10px;
-              display: flex;
-              justify-content: flex-end;
-              align-items: center;
-            }
-            .pagination-item {
-              padding: 5px;
-            }
-          `}
-      </style>
-      <table className='nes-table is-bordered is-centered'>
+    <div className='ui container'>
+      <table className='ui striped table'>
         <thead>
           <tr>
             {columns.map(c => <th key={c}>{c}</th>)}
@@ -30,21 +18,37 @@ export default function Table ({ columns, data, page, pageSize, count, onChange 
         <tbody>
           {data.map((d, i) => <tr key={i}>{columns.map(c => <td key={c.toLowerCase()}>{d[c.toLowerCase()]}</td>)}</tr>)}
         </tbody>
+        {pages.length > 0 &&
+          <tfoot>
+            <tr>
+              <th colSpan='6'>
+                <div className='ui right floated pagination menu'>
+                  <a
+                    className={page === 1 ? 'item disabled' : 'item'}
+                    onClick={() => handleOnChange(page - 1)}
+                  >
+                    &laquo;
+                  </a>
+                  {pages.map(p =>
+                    <a
+                      className={p === page ? 'item active' : 'item'}
+                      key={`p-${p}`}
+                      onClick={() => handleOnChange(p)}
+                    >
+                      {p}
+                    </a>
+                  )}
+                  <a
+                    className={page === pages.length ? 'item disabled' : 'item'}
+                    onClick={() => handleOnChange(page + 1)}
+                  >
+                    &raquo;
+                  </a>
+                </div>
+              </th>
+            </tr>
+          </tfoot>}
       </table>
-      {pages.length > 0 &&
-        <div className='pagination'>
-          <span className={page === 1 ? 'pagination-arrow nes-text is-disabled' : 'pagination-arrow'} onClick={() => handleOnChange(page - 1)}>&laquo;</span>
-          {pages.map(p =>
-            <span
-              className={p === page ? 'pagination-item nes-text is-primary' : 'pagination-item nes-text'}
-              key={`p-${p}`}
-              onClick={() => handleOnChange(p)}
-            >
-              {p}
-            </span>
-          )}
-          <span className={page === pages.length ? 'pagination-arrow nes-text is-disabled' : 'pagination-arrow'} onClick={() => handleOnChange(page + 1)}>&raquo;</span>
-        </div>}
     </div>
   )
 }
