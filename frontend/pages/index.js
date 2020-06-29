@@ -1,7 +1,7 @@
 import Router from 'next/router'
 import Cookies from 'js-cookie'
 import React, { useState } from 'react'
-import { postData } from '../services/api'
+import { postData, getData } from '../services/api'
 
 function LoginPage (props) {
   const [email, setEmail] = useState('')
@@ -10,16 +10,25 @@ function LoginPage (props) {
 
   async function handleSubmit (e) {
     e.preventDefault()
-    const { data: token, errors } = await postData('/php/api/login', {
+    const { data: token, errors: errorsAtLogin } = await postData('/php/api/login', {
       email,
       password
     })
-    if (errors.length > 0) {
-      setErrors(errors)
-    } else {
-      Cookies.set('auth', token)
-      Router.push('/stock')
+    if (errorsAtLogin.length > 0) {
+      setErrors(errorsAtLogin)
+      return
     }
+
+    const { data: user, errors: errorsAtValidate } = await getData('/php/api/validate', {}, token)
+    if (errorsAtValidate.length > 0) {
+      setErrors(errorsAtValidate)
+      return
+    }
+
+    Cookies.set('auth', token)
+    Cookies.set('user', user)
+    const jumpTo = user.usertype === 'seller' ? '/stock' : '/market'
+    Router.push(jumpTo)
   }
 
   return (

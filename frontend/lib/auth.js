@@ -2,12 +2,13 @@ import ServerCookies from 'next-cookies'
 import jwtDecode from 'jwt-decode'
 import { redirect } from '../lib/redirect'
 
-export function handleAuthSSR (context) {
+export async function handleAuthSSR (context) {
   const token = ServerCookies(context).auth
+  const user = ServerCookies(context).user
 
-  if (!token) {
+  if (!token || !user) {
     redirect(context, '/')
-    return
+    return null
   }
 
   try {
@@ -15,12 +16,11 @@ export function handleAuthSSR (context) {
     // If  Token expired redirect to login
     if (new Date() > new Date(decoded.exp * 1000)) {
       redirect(context, '/')
-      return
+      return null
     }
+
+    return user
   } catch (err) {
     redirect(context, '/')
-    return
   }
-
-  return token
 }

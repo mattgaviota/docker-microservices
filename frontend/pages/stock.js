@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
+import Error from 'next/error'
 import Cookies from 'js-cookie'
 import Layout from '../components/Layout'
 import Table from '../components/Table'
 import { handleAuthSSR } from '../lib/auth'
 import { getData } from '../services/api'
 
-function StockPage () {
+function StockPage ({ user }) {
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
   const [page, setPage] = useState(1)
@@ -43,6 +44,10 @@ function StockPage () {
   useEffect(() => {
     fetchData({ page: 1, pageSize: 10, ...filters })
   }, [filters])
+
+  if (!user || user.usertype !== 'seller') {
+    return <Error statusCode={403} />
+  }
 
   return (
     <Layout title='Admin panel'>
@@ -83,9 +88,9 @@ function StockPage () {
 }
 
 export async function getServerSideProps (context) {
-  handleAuthSSR(context)
+  const user = await handleAuthSSR(context)
   return {
-    props: {}
+    props: { user }
   }
 }
 

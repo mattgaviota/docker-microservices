@@ -4,6 +4,7 @@ import Cookies from 'js-cookie'
 export default function Menu () {
   const logout = async () => {
     Cookies.remove('auth')
+    Cookies.remove('user')
     await Router.push('/')
   }
 
