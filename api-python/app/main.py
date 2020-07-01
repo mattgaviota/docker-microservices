@@ -1,10 +1,21 @@
 from flask import Flask
-app = Flask(__name__)
+from config import config
+from endpoints import orders
+from models import db
 
-@app.route("/api")
-def hello():
-    return "Hello World from Flask"
+def create_app(environment):
+    app = Flask(__name__)
+    app.register_blueprint(orders.bp)
+    app.config.from_object(environment)
+
+    with app.app_context():
+        db.init_app(app)
+        db.create_all()
+
+    return app
+
 
 if __name__ == "__main__":
-    # Only for debugging while developing
+    environment = config['development']
+    app = create_app(environment)
     app.run(host='0.0.0.0', debug=True, port=80)
