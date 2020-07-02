@@ -1,5 +1,5 @@
 const { Op } = require('sequelize')
-const { Product, Category } = require('../models')
+const { Product, Category, User } = require('../models')
 
 const listProducts = async (req, res, next) => {
   try {
@@ -9,12 +9,21 @@ const listProducts = async (req, res, next) => {
     const offset = page ? parseInt((page - 1) * limit) : 0
 
     const { rows, count } = await Product.findAndCountAll({
+      attributes: ['id', 'name', 'description', 'amount', 'price'],
       limit,
       offset,
-      include: {
+      include: [
+        {
         model: Category,
-        as: 'category'
-      },
+        as: 'category',
+        attributes: ['name', 'description']
+        },
+        {
+          model: User,
+          as: 'user',
+          attributes: ['name', 'email']
+        }
+      ],
       where: {
         userId: user.id,
         name: {
