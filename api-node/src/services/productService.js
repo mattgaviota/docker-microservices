@@ -8,6 +8,19 @@ const listProducts = async (req, res, next) => {
     const limit = pageSize ? parseInt(pageSize) : 10
     const offset = page ? parseInt((page - 1) * limit) : 0
 
+    const whereStatement = {
+      name: {
+        [Op.iLike]: `%${name || ''}%`
+      },
+      '$category.name$': {
+        [Op.iLike]: `%${category || ''}%`
+      }
+    }
+
+    if (user.usertype === 'seller') {
+      whereStatement.userId = user.id
+    }
+
     const { rows, count } = await Product.findAndCountAll({
       attributes: ['id', 'name', 'description', 'amount', 'price'],
       limit,
@@ -24,15 +37,7 @@ const listProducts = async (req, res, next) => {
           attributes: ['name', 'email']
         }
       ],
-      where: {
-        userId: user.id,
-        name: {
-          [Op.iLike]: `%${name || ''}%`
-        },
-        '$category.name$': {
-          [Op.iLike]: `%${category || ''}%`
-        }
-      }
+      where: whereStatement
     })
 
     return res.status(200).send({
