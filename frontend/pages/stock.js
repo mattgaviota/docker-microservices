@@ -3,6 +3,7 @@ import Error from 'next/error'
 import Cookies from 'js-cookie'
 import Layout from '../components/Layout'
 import Table from '../components/Table'
+import Select from '../components/Select'
 import { handleAuthSSR } from '../lib/auth'
 import { getData } from '../services/api'
 
@@ -59,20 +60,12 @@ function StockPage ({ user }) {
       </style>
       <div className='ui container'>
         <h2 className='ui header'>Products</h2>
-        <div className='ui container filters'>
+        <div className='ui form filters'>
           <h3 className='ui header'>Filters</h3>
-          <div className='field'>
-            <select
-              id='categories'
-              className='ui search dropdown'
-              defaultValue='0'
-              onChange={handleOnChange}
-            >
-              <option value='0' disabled hidden>Select...</option>
-              <option value=''>All</option>
-              {categories.map(c => <option value={c.name} key={c.id}>{c.name}</option>)}
-            </select>
-          </div>
+          <Select
+            categories={categories}
+            onChange={handleOnChange}
+          />
         </div>
         <Table
           columns={['ID', 'Name', 'Description', 'Amount', 'Price', 'Category']}

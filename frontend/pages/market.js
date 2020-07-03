@@ -3,6 +3,7 @@ import Error from 'next/error'
 import Cookies from 'js-cookie'
 import Layout from '../components/Layout'
 import Table from '../components/Table'
+import Select from '../components/Select'
 import { handleAuthSSR } from '../lib/auth'
 import { getData } from '../services/api'
 
@@ -79,18 +80,10 @@ function MarketPage ({ user }) {
             <button className='ui button' onClick={handleOnClickSearch}>Search</button>
           </div>
 
-          <div className='field'>
-            <select
-              id='categories'
-              className='ui fluid dropdown'
-              defaultValue='0'
-              onChange={handleOnChange}
-            >
-              <option value='0' disabled hidden>Select...</option>
-              <option value=''>All</option>
-              {categories.map(c => <option value={c.name} key={c.id}>{c.name}</option>)}
-            </select>
-          </div>
+          <Select
+            categories={categories}
+            onChange={handleOnChange}
+          />
         </div>
         <Table
           columns={['ID', 'Name', 'Description', 'Amount', 'Price', 'Category']}
