@@ -7,6 +7,49 @@ export default function Table ({ columns, data, page, pageSize, count, onChange 
     }
   }
 
+  function renderPaginationItem (p, i) {
+    let className = ''
+    if (p === '...') {
+      className = 'item disabled'
+    } else if (p === page) {
+      className = 'item active'
+    } else {
+      className = 'item'
+    }
+
+    return (
+      <a
+        className={className}
+        key={`p-${i}`}
+        onClick={() => handleOnChange(p)}
+      >
+        {p}
+      </a>
+    )
+  }
+
+  function pagination (currentPage, pageCount) {
+    const delta = 2
+
+    const range = []
+    for (let i = Math.max(2, currentPage - delta); i <= Math.min(pageCount - 1, currentPage + delta); i++) {
+      range.push(i)
+    }
+
+    if (currentPage - delta > 2) {
+      range.unshift('...')
+    }
+
+    if (currentPage + delta < pageCount - 1) {
+      range.push('...')
+    }
+
+    range.unshift(1)
+    range.push(pageCount)
+
+    return range
+  }
+
   return (
     <div className='ui container'>
       <table className='ui striped table'>
@@ -29,15 +72,7 @@ export default function Table ({ columns, data, page, pageSize, count, onChange 
                   >
                     &laquo;
                   </a>
-                  {pages.map(p =>
-                    <a
-                      className={p === page ? 'item active' : 'item'}
-                      key={`p-${p}`}
-                      onClick={() => handleOnChange(p)}
-                    >
-                      {p}
-                    </a>
-                  )}
+                  {pagination(page, pages.length).map((p, i) => renderPaginationItem(p, i))}
                   <a
                     className={page === pages.length ? 'item disabled' : 'item'}
                     onClick={() => handleOnChange(page + 1)}
