@@ -55,6 +55,7 @@ function StockPage ({ user }) {
       <style jsx>{`
         .filters {
           margin-bottom: 20px;
+          width: 50%;
         }
       `}
       </style>
