@@ -52,7 +52,7 @@ export default function Table ({ columns, data, page, pageSize, count, onChange 
 
   return (
     <div className='ui container'>
-      <table className='ui striped table'>
+      <table className='ui celled striped table'>
         <thead>
           <tr>
             {columns.map(c => <th key={c}>{c}</th>)}

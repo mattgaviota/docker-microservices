@@ -13,6 +13,7 @@ function MarketPage ({ user }) {
   const [pageSize, setPageSize] = useState(10)
   const [count, setCount] = useState(null)
   const [filters, setFilters] = useState({})
+  const [searchInput, setSearchInput] = useState('')
 
   async function fetchData (params) {
     const token = Cookies.get('auth')
@@ -37,12 +38,20 @@ function MarketPage ({ user }) {
     const categorySelected = e.target.value
 
     setFilters({
+      ...filters,
       category: categorySelected
     })
   }
 
+  function handleOnClickSearch () {
+    setFilters({
+      ...filters,
+      name: searchInput
+    })
+  }
+
   useEffect(() => {
-    fetchData({ page: 1, pageSize: 15, ...filters })
+    fetchData({ page, pageSize, ...filters })
   }, [filters])
 
   if (!user || user.usertype !== 'buyer') {
@@ -59,12 +68,21 @@ function MarketPage ({ user }) {
       </style>
       <div className='ui container'>
         <h2 className='ui header'>Find your Products</h2>
-        <div className='ui container filters'>
+        <div className='ui form filters'>
           <h3 className='ui header'>Filters</h3>
+          <div className='ui action fluid input field'>
+            <input
+              type='text'
+              placeholder='Search by product name...'
+              onChange={(e) => setSearchInput(e.target.value)}
+            />
+            <button className='ui button' onClick={handleOnClickSearch}>Search</button>
+          </div>
+
           <div className='field'>
             <select
               id='categories'
-              className='ui search dropdown'
+              className='ui fluid dropdown'
               defaultValue='0'
               onChange={handleOnChange}
             >
