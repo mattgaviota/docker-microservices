@@ -1,4 +1,4 @@
-export default function Table ({ columns, data, page, pageSize, count, onChange }) {
+export default function Table ({ columns, data, page, pageSize, count, onChange, actions = [] }) {
   const pages = count ? Array(Math.ceil(count / pageSize)).fill(0).map((_, i) => i + 1) : []
 
   function handleOnChange (newPage) {
@@ -56,15 +56,20 @@ export default function Table ({ columns, data, page, pageSize, count, onChange 
         <thead>
           <tr>
             {columns.map(c => <th key={c}>{c}</th>)}
+            {actions.length > 0 && actions.map(a => <th key={a.name}>{a.name}</th>)}
           </tr>
         </thead>
         <tbody>
-          {data.map((d, i) => <tr key={i}>{columns.map(c => <td key={c.toLowerCase()}>{d[c.toLowerCase()]}</td>)}</tr>)}
+          {data.map((d, i) =>
+            <tr key={i}>
+              {columns.map(c => <td key={c.toLowerCase()}>{d[c.toLowerCase()]}</td>)}
+              {actions.length > 0 && <td>{actions.map(a => <button key={a.name} onClick={() => a.onClick(d)}>{a.name}</button>)}</td>}
+            </tr>)}
         </tbody>
         {pages.length > 0 &&
           <tfoot>
             <tr>
-              <th colSpan='6'>
+              <th colSpan={columns.length + actions.length}>
                 <div className='ui right floated pagination menu'>
                   <a
                     className={page === 1 ? 'item disabled' : 'item'}

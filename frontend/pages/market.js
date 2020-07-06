@@ -5,6 +5,7 @@ import Layout from '../components/Layout'
 import Table from '../components/Table'
 import Select from '../components/Select'
 import { handleAuthSSR } from '../lib/auth'
+import { addItem } from '../lib/cart'
 import { getData } from '../services/api'
 
 function MarketPage ({ user }) {
@@ -25,6 +26,7 @@ function MarketPage ({ user }) {
       id: p.id,
       name: p.name,
       description: p.description,
+      seller: p.user.name,
       amount: p.amount,
       price: p.price,
       category: p.category.name
@@ -59,6 +61,20 @@ function MarketPage ({ user }) {
     return <Error statusCode={403} />
   }
 
+  const actions = [
+    {
+      name: 'order',
+      onClick: function (row) {
+        console.log(row)
+        addItem({
+          id: row.id,
+          name: row.name,
+          quantity: 1
+        })
+      }
+    }
+  ]
+
   return (
     <Layout title='Market'>
       <style jsx>{`
@@ -87,12 +103,13 @@ function MarketPage ({ user }) {
           />
         </div>
         <Table
-          columns={['ID', 'Name', 'Description', 'Amount', 'Price', 'Category']}
+          columns={['ID', 'Name', 'Description', 'Seller', 'Amount', 'Price', 'Category']}
           data={products}
           page={page}
           pageSize={pageSize}
           count={count}
           onChange={fetchData}
+          actions={actions}
         />
       </div>
     </Layout>
