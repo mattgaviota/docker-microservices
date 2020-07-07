@@ -63,7 +63,8 @@ export default function Table ({ columns, data, page, pageSize, count, onChange,
           {data.map((d, i) =>
             <tr key={i}>
               {columns.map(c => <td key={c.toLowerCase()}>{d[c.toLowerCase()]}</td>)}
-              {actions.length > 0 && <td>{actions.map(a => <button key={a.name} onClick={() => a.onClick(d)}>{a.name}</button>)}</td>}
+              {actions.length > 0 && <td>{actions.map(a =>
+                <button className='ui icon button' key={a.name} onClick={() => a.onClick(d)}><i className={a.icon} /></button>)}</td>}
             </tr>)}
         </tbody>
         {pages.length > 0 &&

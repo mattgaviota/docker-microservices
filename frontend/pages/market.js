@@ -64,6 +64,7 @@ function MarketPage ({ user }) {
   const actions = [
     {
       name: 'order',
+      icon: 'cart plus icon',
       onClick: function (row) {
         console.log(row)
         addItem({
