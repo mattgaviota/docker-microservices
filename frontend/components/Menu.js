@@ -1,18 +1,37 @@
 import Router from 'next/router'
 import Cookies from 'js-cookie'
 
-export default function Menu () {
+export default function Menu ({ data }) {
   const logout = async () => {
     Cookies.remove('auth')
     Cookies.remove('user')
     await Router.push('/')
   }
 
+  const options = data && data.usertype === 'seller' ? [
+    {
+      text: 'Products',
+      route: '/stock'
+    },
+    {
+      text: 'Categories',
+      route: '/categories'
+    }
+  ] : [
+    {
+      text: 'Find Products',
+      route: '/market'
+    },
+    {
+      text: 'Orders',
+      route: '/orders'
+    }
+  ]
+
   return (
     <div className='ui vertical menu'>
-      <a type='button' className='item' onClick={() => Router.push('/stock')}>Products</a>
-      <a type='button' className='item' onClick={() => Router.push('/categories')}>Categories</a>
-      <a type='button' className='item' onClick={logout}>Logout</a>
+      {options.map((item, i) => <a key={i} className='item' onClick={() => Router.push(item.route)}>{item.text}</a>)}
+      <a className='item' onClick={logout}>Logout</a>
     </div>
   )
 }
