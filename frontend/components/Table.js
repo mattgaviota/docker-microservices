@@ -1,10 +1,20 @@
+import React, { useState } from 'react'
+
 export default function Table ({ columns, data, page, pageSize, count, onChange, actions = [] }) {
+  const [state, setState] = useState({})
   const pages = count ? Array(Math.ceil(count / pageSize)).fill(0).map((_, i) => i + 1) : []
 
   function handleOnChange (newPage) {
     if (newPage >= 1 && newPage <= pages.length) {
       onChange({ page: newPage, pageSize })
     }
+  }
+
+  function handleOnChangeQuantities (evt) {
+    const value = evt.target.value
+    setState({
+      [evt.target.name]: value
+    })
   }
 
   function renderPaginationItem (p, i) {
@@ -63,8 +73,21 @@ export default function Table ({ columns, data, page, pageSize, count, onChange,
           {data.map((d, i) =>
             <tr key={i}>
               {columns.map(c => <td key={c.toLowerCase()}>{d[c.toLowerCase()]}</td>)}
-              {actions.length > 0 && <td>{actions.map(a =>
-                <button className='ui icon button' key={a.name} onClick={() => a.onClick(d)}><i className={a.icon} /></button>)}</td>}
+              {actions.length > 0 &&
+                <td>{actions.map(a =>
+                  <div className='ui left action input' key={a.name}>
+                    <button className='ui teal icon button' onClick={() => a.onClick(d, state[d.id])}>
+                      <i className={a.icon} />
+                    </button>
+                    <input
+                      type='text'
+                      placeholder='Quantity'
+                      name={d.id}
+                      value={state[d.id] || ''}
+                      onChange={handleOnChangeQuantities}
+                    />
+                  </div>)}
+                </td>}
             </tr>)}
         </tbody>
         {pages.length > 0 &&

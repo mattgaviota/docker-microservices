@@ -64,13 +64,13 @@ function MarketPage ({ user }) {
   const actions = [
     {
       name: 'order',
-      icon: 'cart plus icon',
-      onClick: function (row) {
-        console.log(row)
+      icon: 'cart icon',
+      onClick: function (product, quantity) {
+        console.log(product)
         addItem({
-          id: row.id,
-          name: row.name,
-          quantity: 1
+          id: product.id,
+          name: product.name,
+          quantity
         })
       }
     }
