@@ -4,6 +4,7 @@ import Cookies from 'js-cookie'
 import Layout from '../components/Layout'
 import Table from '../components/Table'
 import Select from '../components/Select'
+import Modal from '../components/Modal'
 import { handleAuthSSR } from '../lib/auth'
 import { addItem } from '../lib/cart'
 import { getData } from '../services/api'
@@ -16,6 +17,8 @@ function MarketPage ({ user }) {
   const [count, setCount] = useState(null)
   const [filters, setFilters] = useState({})
   const [searchInput, setSearchInput] = useState('')
+  const [displayModal, setDisplayModal] = useState(false)
+  const [message, setMessage] = useState('')
 
   async function fetchData (params) {
     const token = Cookies.get('auth')
@@ -66,12 +69,16 @@ function MarketPage ({ user }) {
       name: 'order',
       icon: 'cart icon',
       onClick: function (product, quantity) {
-        console.log(product)
-        addItem({
-          id: product.id,
-          name: product.name,
-          quantity
-        })
+        if (parseInt(product.amount) < parseInt(quantity)) {
+          setMessage(`Only ${product.amount} items in stock, try less than ${quantity}`)
+          setDisplayModal(true)
+        } else {
+          addItem({
+            id: product.id,
+            name: product.name,
+            quantity
+          })
+        }
       }
     }
   ]
@@ -103,8 +110,9 @@ function MarketPage ({ user }) {
             onChange={handleOnChange}
           />
         </div>
+        {displayModal && <Modal message={message} handleDisplay={setDisplayModal} />}
         <Table
-          columns={['ID', 'Name', 'Description', 'Seller', 'Amount', 'Price', 'Category']}
+          columns={['ID', 'Name', 'Description', 'Seller', 'Price', 'Category']}
           data={products}
           page={page}
           pageSize={pageSize}
