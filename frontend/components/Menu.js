@@ -11,27 +11,36 @@ export default function Menu ({ data }) {
   const options = data && data.usertype === 'seller' ? [
     {
       text: 'Products',
-      route: '/stock'
+      route: '/stock',
+      icon: 'product hunt icon'
     },
     {
       text: 'Categories',
-      route: '/categories'
+      route: '/categories',
+      icon: 'sitemap icon'
     }
   ] : [
     {
-      text: 'Find Products',
-      route: '/market'
+      text: 'Market',
+      route: '/market',
+      icon: 'warehouse icon'
+    },
+    {
+      text: 'Cart',
+      route: '/cart',
+      icon: 'cart icon'
     },
     {
       text: 'Orders',
-      route: '/orders'
+      route: '/orders',
+      icon: 'clipboard outline icon'
     }
   ]
 
   return (
     <div className='ui vertical menu'>
-      {options.map((item, i) => <a key={i} className='item' onClick={() => Router.push(item.route)}>{item.text}</a>)}
-      <a className='item' onClick={logout}>Logout</a>
+      {options.map((item, i) => <a key={i} className='item' onClick={() => Router.push(item.route)}>{item.text}<i className={item.icon} /></a>)}
+      <a className='item' onClick={logout}>Logout<i className='sign-out icon' /></a>
     </div>
   )
 }

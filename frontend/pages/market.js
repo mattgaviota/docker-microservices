@@ -98,14 +98,20 @@ function MarketPage ({ user }) {
           margin-bottom: 20px;
           width: 50%;
         }
+        .header-wrapper {
+          display: flex;
+          justify-content: space-between;
+        }
       `}
       </style>
       <div className='ui container'>
-        <h2 className='ui header'>Find your Products</h2>
-        <button className='ui teal labeled icon button'>
-          <i className='cart icon' />
-          {cart.length} items
-        </button>
+        <div className='header-wrapper'>
+          <h2 className='ui header'>Find your Products</h2>
+          <button className='ui teal labeled icon button'>
+            <i className='cart icon' />
+            {cart.length} items
+          </button>
+        </div>
         <div className='ui form filters'>
           <h3 className='ui header'>Filters</h3>
           <div className='ui action fluid input field'>
