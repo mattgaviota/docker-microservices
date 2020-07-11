@@ -6,7 +6,7 @@ import Table from '../components/Table'
 import Select from '../components/Select'
 import Modal from '../components/Modal'
 import { handleAuthSSR } from '../lib/auth'
-import { addItem } from '../lib/cart'
+import { addItem, getCart } from '../lib/cart'
 import { getData } from '../services/api'
 
 function MarketPage ({ user }) {
@@ -19,6 +19,7 @@ function MarketPage ({ user }) {
   const [searchInput, setSearchInput] = useState('')
   const [displayModal, setDisplayModal] = useState(false)
   const [message, setMessage] = useState('')
+  const [cart, setCart] = useState([])
 
   async function fetchData (params) {
     const token = Cookies.get('auth')
@@ -60,6 +61,11 @@ function MarketPage ({ user }) {
     fetchData({ page, pageSize, ...filters })
   }, [filters])
 
+  useEffect(() => {
+    const cart = getCart()
+    setCart(cart)
+  }, [])
+
   if (!user || user.usertype !== 'buyer') {
     return <Error statusCode={403} />
   }
@@ -69,15 +75,17 @@ function MarketPage ({ user }) {
       name: 'order',
       icon: 'cart icon',
       onClick: function (product, quantity) {
-        if (parseInt(product.amount) < parseInt(quantity)) {
-          setMessage(`Only ${product.amount} items in stock, try less than ${quantity}`)
-          setDisplayModal(true)
-        } else {
-          addItem({
+        if (parseInt(quantity) > 0 && parseInt(quantity) <= parseInt(product.amount)) {
+          const newItem = {
             id: product.id,
             name: product.name,
             quantity
-          })
+          }
+          const cartUpdated = addItem(newItem)
+          setCart([...cartUpdated])
+        } else {
+          setMessage(`Invalid ${product.amount} or no items in stock, try less than ${quantity}`)
+          setDisplayModal(true)
         }
       }
     }
@@ -94,6 +102,10 @@ function MarketPage ({ user }) {
       </style>
       <div className='ui container'>
         <h2 className='ui header'>Find your Products</h2>
+        <button className='ui teal labeled icon button'>
+          <i className='cart icon' />
+          {cart.length} items
+        </button>
         <div className='ui form filters'>
           <h3 className='ui header'>Filters</h3>
           <div className='ui action fluid input field'>

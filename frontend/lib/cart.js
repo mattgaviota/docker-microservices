@@ -1,11 +1,7 @@
 export function addItem (item) {
-  let cart = window.localStorage.getItem('cart')
+  const localCart = window.localStorage.getItem('cart')
+  const cart = localCart ? JSON.parse(localCart) : []
 
-  if (!cart) {
-    return window.localStorage.setItem('cart', JSON.stringify([item]))
-  }
-
-  cart = JSON.parse(cart)
   const existingItem = cart.find(i => i.id === item.id)
   if (existingItem) {
     existingItem.quantity += item.quantity
@@ -14,4 +10,11 @@ export function addItem (item) {
   }
 
   window.localStorage.setItem('cart', JSON.stringify(cart))
+  return cart
+}
+
+export function getCart () {
+  const localCart = window.localStorage.getItem('cart')
+  const cart = localCart ? JSON.parse(localCart) : []
+  return cart
 }
