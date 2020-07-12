@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Error from 'next/error'
+import Router from 'next/router'
 import Cookies from 'js-cookie'
 import Layout from '../components/Layout'
 import Table from '../components/Table'
@@ -81,7 +82,7 @@ function MarketPage ({ user }) {
             name: product.name,
             seller: product.seller,
             category: product.category,
-            quantity
+            quantity: parseInt(quantity)
           }
           const cartUpdated = addItem(newItem)
           setCart([...cartUpdated])
@@ -109,7 +110,7 @@ function MarketPage ({ user }) {
       <div className='ui container'>
         <div className='header-wrapper'>
           <h2 className='ui header'>Find your Products</h2>
-          <button className='ui teal labeled icon button'>
+          <button className='ui teal labeled icon button' onClick={() => Router.push('/cart')}>
             <i className='cart icon' />
             {cart.length} items
           </button>

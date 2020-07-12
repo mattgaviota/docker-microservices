@@ -76,11 +76,19 @@ export default function Table ({ columns, data, page, pageSize, count, onChange,
               {actions.length > 0 &&
                 <td>{actions.map(a =>
                   <div className='ui left action input' key={a.name}>
-                    <button className='ui teal icon button' onClick={() => a.onClick(d, state[d.id])}>
+                    <button
+                      className='ui teal icon button'
+                      onClick={() => {
+                        a.onClick(d, state[d.id])
+                        setState({
+                          [state[d.id]]: ''
+                        })
+                      }}
+                    >
                       <i className={a.icon} />
                     </button>
                     <input
-                      type='text'
+                      type='number'
                       placeholder='Quantity'
                       name={d.id}
                       value={state[d.id] || ''}
