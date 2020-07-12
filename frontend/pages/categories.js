@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
+import Error from 'next/error'
 import Cookies from 'js-cookie'
 import Layout from '../components/Layout'
 import Table from '../components/Table'
 import { handleAuthSSR } from '../lib/auth'
 import { getData } from '../services/api'
 
-function CategoryPage () {
+function CategoryPage ({ user }) {
   const [categories, setCategories] = useState([])
 
   async function fetchData () {
@@ -19,6 +20,10 @@ function CategoryPage () {
     fetchData()
   }, [])
 
+  if (!user || user.usertype !== 'seller') {
+    return <Error statusCode={403} />
+  }
+
   return (
     <Layout title='Categories'>
       <h2 className='ui header'>Categories</h2>
@@ -31,9 +36,9 @@ function CategoryPage () {
 }
 
 export async function getServerSideProps (context) {
-  handleAuthSSR(context)
+  const user = await handleAuthSSR(context)
   return {
-    props: {}
+    props: { user }
   }
 }
 

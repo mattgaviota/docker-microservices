@@ -79,6 +79,8 @@ function MarketPage ({ user }) {
           const newItem = {
             id: product.id,
             name: product.name,
+            seller: product.seller,
+            category: product.category,
             quantity
           }
           const cartUpdated = addItem(newItem)
