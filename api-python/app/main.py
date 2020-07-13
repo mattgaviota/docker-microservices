@@ -1,15 +1,13 @@
 from flask import Flask
 from flask_cors import CORS
 from config import config
-from endpoints import orders
+from routes import bp
 from models import db
-from middleware import Middleware
 
 def create_app(environment):
     app = Flask(__name__)
-    CORS(app, resources={r"/api/*": {"origins": "*"}})
-    app.wsgi_app = Middleware(app.wsgi_app)
-    app.register_blueprint(orders.bp, url_prefix='/api')
+    CORS(app)
+    app.register_blueprint(bp, url_prefix='/api')
     app.config.from_object(environment)
     with app.app_context():
         db.init_app(app)
