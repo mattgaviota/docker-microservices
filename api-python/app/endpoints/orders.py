@@ -4,6 +4,7 @@ bp = Blueprint('orders', __name__)
 
 @bp.route("/api/orders", methods=['GET'])
 def get_orders():
+    user = request.environ['user']
     return "Get orders"
 
 
