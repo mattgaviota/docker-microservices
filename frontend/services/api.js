@@ -29,7 +29,7 @@ export async function postData (path, payload, token = '') {
   if (token) {
     headers.Authorization = `Bearer ${token}`
   }
-  const resp = await fetch(url, { method: 'POST', body: JSON.stringify(payload), headers })
+  const resp = await fetch(url, { method: 'POST', body: JSON.stringify(payload), headers: headers })
 
   const json = await resp.json()
   return json

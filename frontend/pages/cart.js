@@ -1,11 +1,24 @@
 import React, { useState, useEffect } from 'react'
+import Cookies from 'js-cookie'
 import Error from 'next/error'
 import Layout from '../components/Layout'
 import { handleAuthSSR } from '../lib/auth'
 import { getCart } from '../lib/cart'
+import { postData } from '../services/api'
 
 function CartPage ({ user }) {
   const [groups, setGroups] = useState({})
+
+  async function createOrder (group) {
+    const token = Cookies.get('auth')
+    const payload = {
+      [group]: {
+        items: groups[group]
+      }
+    }
+    const data = await postData('/python/api/orders', payload, token)
+    console.log('data', data)
+  }
 
   useEffect(() => {
     const cart = getCart()
@@ -51,10 +64,13 @@ function CartPage ({ user }) {
                   </table>
                 </div>
               </div>
-              <div className='ui bottom attached button'>
+              <button
+                className='ui bottom attached button'
+                onClick={() => createOrder(group)}
+              >
                 <i className='add icon' />
                 Create Order
-              </div>
+              </button>
             </div>
           ))}
         </div>
