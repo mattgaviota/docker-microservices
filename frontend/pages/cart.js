@@ -12,9 +12,8 @@ function CartPage ({ user }) {
   async function createOrder (group) {
     const token = Cookies.get('auth')
     const payload = {
-      [group]: {
-        items: groups[group]
-      }
+      seller: group,
+      items: groups[group]
     }
     const data = await postData('/python/api/orders', payload, token)
     console.log('data', data)

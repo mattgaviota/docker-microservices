@@ -3,6 +3,19 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+
+class User(db.Model):
+    __tablename__ = 'users'
+
+    id = db.Column(db.BigInteger, primary_key=True, index=True)
+    name = db.Column(db.String)
+    email = db.Column(db.String)
+    password = db.Column(db.String)
+    usertype = db.Column(db.String)
+    created_at = db.Column(db.DateTime)
+    updated_at = db.Column(db.DateTime)
+
+
 class Order(db.Model):
     __tablename__ = 'orders'
 
@@ -28,5 +41,3 @@ class Detail(db.Model):
     total = db.Column(db.Float)
     created_at = db.Column(db.DateTime)
     updated_at = db.Column(db.DateTime)
-
-    order = db.relationship('Order', backref='details', lazy=True)

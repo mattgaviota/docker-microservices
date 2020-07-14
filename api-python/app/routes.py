@@ -1,5 +1,7 @@
 from flask import Blueprint, g, request, make_response
-from functools import wraps
+from functools import wraps, reduce
+from models import User, Order, Detail, db
+from datetime import date
 import requests
 
 bp = Blueprint('orders', __name__)
@@ -38,6 +40,22 @@ def get_orders():
 def create_order():
     user = g.user
     data = request.get_json()
-    print(user)
-    print(data)
-    return make_response({'status': 'success', 'message': 'Order created 1'}), 201
+
+    seller = User.query.filter_by(name=data['seller']).first()
+    if not seller:
+        return make_response({'status': 'fail', 'message': 'Bad Request'}), 400
+
+    # total = reduce(lambda a,b : a['quantity'] + b['quantity'], data['items'])
+
+    print('seller {}'.format(seller.id))
+    order_data = {
+        'seller_id': seller.id,
+        'buyer_id': user['id'],
+        'date': date.today(),
+        'total': 0
+    }
+    order = Order(**order_data)
+    db.session.add(order)
+    db.session.commit()
+    print('order {}'.format(order))
+    return make_response({'status': 'success', 'message': 'Order created'}), 201
