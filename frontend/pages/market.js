@@ -82,7 +82,8 @@ function MarketPage ({ user }) {
             name: product.name,
             seller: product.seller,
             category: product.category,
-            quantity: parseInt(quantity)
+            quantity: parseInt(quantity),
+            price: product.price
           }
           const cartUpdated = addItem(newItem)
           setCart([...cartUpdated])

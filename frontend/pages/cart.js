@@ -48,6 +48,7 @@ function CartPage ({ user }) {
                       <tr>
                         <th>Item</th>
                         <th>Quantity</th>
+                        <th>Price</th>
                         <th>Category</th>
                       </tr>
                     </thead>
@@ -56,6 +57,7 @@ function CartPage ({ user }) {
                         <tr key={item.id}>
                           <td>{item.name}</td>
                           <td>{item.quantity}</td>
+                          <td>{item.price}</td>
                           <td>{item.category}</td>
                         </tr>
                       ))}

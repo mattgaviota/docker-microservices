@@ -45,17 +45,28 @@ def create_order():
     if not seller:
         return make_response({'status': 'fail', 'message': 'Bad Request'}), 400
 
-    # total = reduce(lambda a,b : a['quantity'] + b['quantity'], data['items'])
+    total = reduce(lambda a,b : a + b['quantity'] * b['price'], data['items'], 0)
 
-    print('seller {}'.format(seller.id))
     order_data = {
         'seller_id': seller.id,
         'buyer_id': user['id'],
         'date': date.today(),
-        'total': 0
+        'total': total
     }
     order = Order(**order_data)
     db.session.add(order)
     db.session.commit()
-    print('order {}'.format(order))
+
+    for item in data['items']:
+        detail_data = {
+            'order_id': order.id,
+            'product_id': item['id'],
+            'amount': item['quantity'],
+            'price': item['price'],
+            'total': item['quantity'] * item['price']
+        }
+        detail = Detail(**detail_data)
+        db.session.add(detail)
+        db.session.commit()
+
     return make_response({'status': 'success', 'message': 'Order created'}), 201
