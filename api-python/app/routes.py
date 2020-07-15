@@ -28,6 +28,7 @@ def validation(f):
 
     return wrap
 
+
 @bp.route("/orders", methods=['GET'])
 @validation
 def get_orders():

@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'
 import Error from 'next/error'
 import Layout from '../components/Layout'
 import { handleAuthSSR } from '../lib/auth'
-import { getCart } from '../lib/cart'
+import { getCart, removeItems } from '../lib/cart'
 import { postData } from '../services/api'
 
 function CartPage ({ user }) {
@@ -15,17 +15,24 @@ function CartPage ({ user }) {
       seller: group,
       items: groups[group]
     }
-    const data = await postData('/python/api/orders', payload, token)
-    console.log('data', data)
+    const { status } = await postData('/python/api/orders', payload, token)
+    if (status === 'success') {
+      removeItems(groups[group].map(item => item.id))
+      updateCart()
+    }
   }
 
-  useEffect(() => {
+  function updateCart () {
     const cart = getCart()
     const groups = cart.reduce((r, i) => {
       r[i.seller] = [...r[i.seller] || [], i]
       return r
     }, {})
     setGroups(groups)
+  }
+
+  useEffect(() => {
+    updateCart()
   }, [])
 
   if (!user || user.usertype !== 'buyer') {
