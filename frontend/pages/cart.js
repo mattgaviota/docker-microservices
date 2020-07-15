@@ -17,9 +17,13 @@ function CartPage ({ user }) {
     }
     const { status } = await postData('/python/api/orders', payload, token)
     if (status === 'success') {
-      removeItems(groups[group].map(item => item.id))
-      updateCart()
+      remove(group)
     }
+  }
+
+  function remove (group) {
+    removeItems(groups[group].map(item => item.id))
+    updateCart()
   }
 
   function updateCart () {
@@ -43,45 +47,60 @@ function CartPage ({ user }) {
     <Layout title='Cart'>
       <div className='ui container'>
         <h2 className='ui header'>Create Orders</h2>
-        <div className='ui cards'>
-          {Object.keys(groups).map(group => (
-            <div className='card' key={group}>
-              <div className='content'>
-                <div className='header'>{group}</div>
-                <div className='meta'>Seller</div>
-                <div className='description'>
-                  <table className='ui table'>
-                    <thead>
-                      <tr>
-                        <th>Item</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Category</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {groups[group].map(item => (
-                        <tr key={item.id}>
-                          <td>{item.name}</td>
-                          <td>{item.quantity}</td>
-                          <td>{item.price}</td>
-                          <td>{item.category}</td>
+        {Object.keys(groups).length > 0 ? (
+          <div className='ui cards'>
+            {Object.keys(groups).map(group => (
+              <div className='card' key={group}>
+                <div className='content'>
+                  <div className='header'>{group}</div>
+                  <div className='meta'>Seller</div>
+                  <div className='description'>
+                    <table className='ui table'>
+                      <thead>
+                        <tr>
+                          <th>Item</th>
+                          <th>Quantity</th>
+                          <th>Price</th>
+                          <th>Category</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {groups[group].map(item => (
+                          <tr key={item.id}>
+                            <td>{item.name}</td>
+                            <td>{item.quantity}</td>
+                            <td>{item.price}</td>
+                            <td>{item.category}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div className='extra content'>
+                  <div className='ui two buttons'>
+                    <button
+                      className='ui teal button'
+                      onClick={() => createOrder(group)}
+                    >
+                      <i className='add icon' />
+                      Create
+                    </button>
+                    <button
+                      className='ui button'
+                      onClick={() => remove(group)}
+                    >
+                      <i className='minus icon' />
+                      Remove
+                    </button>
+                  </div>
                 </div>
               </div>
-              <button
-                className='ui bottom attached button'
-                onClick={() => createOrder(group)}
-              >
-                <i className='add icon' />
-                Create Order
-              </button>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div>No Data</div>
+        )}
       </div>
     </Layout>
   )
