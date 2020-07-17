@@ -2,6 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 from routes import bp
 from models import db
+from schemas import ma
 import config
 
 def create_app(environment):
@@ -11,6 +12,7 @@ def create_app(environment):
     app.register_blueprint(bp, url_prefix='/api')
     with app.app_context():
         db.init_app(app)
+        ma.init_app(app)
         db.create_all()
 
     return app

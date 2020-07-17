@@ -1,10 +1,13 @@
-from flask import Blueprint, g, request, make_response
+from flask import Blueprint, g, request, make_response, jsonify
 from functools import wraps, reduce
 from models import User, Order, Detail, db
+from schemas import OrderSchema
 from datetime import date
 import requests
 
 bp = Blueprint('orders', __name__)
+
+orders_schema = OrderSchema(many=True)
 
 def validation(f):
     @wraps(f)
@@ -32,8 +35,15 @@ def validation(f):
 @bp.route("/orders", methods=['GET'])
 @validation
 def get_orders():
-    #user = request.environ['user']
-    return "Get orders"
+    user = g.user
+    if user['usertype'] != 'buyer':
+        return make_response({'status': 'fail', 'message': 'Access Forbiden'}), 403
+
+    orders = Order.query.all()
+    data = {
+        'data': orders_schema.dump(orders)
+    }
+    return make_response(jsonify(data)), 200
 
 
 @bp.route("/orders", methods=['POST'])
