@@ -20,14 +20,15 @@ class Order(db.Model):
     __tablename__ = 'orders'
 
     id = db.Column(db.Integer, primary_key=True, index=True)
-    buyer_id = db.Column(db.Integer, index=True)
-    seller_id = db.Column(db.Integer, index=True)
+    buyer_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    seller_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     date = db.Column(db.DateTime)
     total = db.Column(db.Float)
     created_at = db.Column(db.DateTime)
     updated_at = db.Column(db.DateTime)
 
     details = db.relationship('Detail', backref='order', lazy=True)
+    seller = db.relationship('User', foreign_keys=[seller_id], backref='orders', lazy=True)
 
 
 class Detail(db.Model):
