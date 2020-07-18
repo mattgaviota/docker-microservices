@@ -1,5 +1,5 @@
 from flask_marshmallow import Marshmallow
-from models import Order, Detail, User
+from models import Order, Detail, User, Product
 
 ma = Marshmallow()
 
@@ -8,7 +8,14 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = User
 
+
+class ProductSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Product
+
+
 class DetailSchema(ma.SQLAlchemyAutoSchema):
+    product = ma.Nested(ProductSchema)
     class Meta:
         model = Detail
         include_fk = True
