@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import Error from 'next/error'
+import Router from 'next/router'
 import Cookies from 'js-cookie'
-import Layout from '../components/Layout'
-import Table from '../components/Table'
-import Select from '../components/Select'
-import { handleAuthSSR } from '../lib/auth'
-import { getData } from '../services/api'
+import Layout from '../../components/Layout'
+import Table from '../../components/Table'
+import Select from '../../components/Select'
+import { handleAuthSSR } from '../../lib/auth'
+import { getData } from '../../services/api'
 
 function StockPage ({ user }) {
   const [products, setProducts] = useState([])
@@ -57,10 +58,20 @@ function StockPage ({ user }) {
           margin-bottom: 20px;
           width: 50%;
         }
+        .header-wrapper {
+          display: flex;
+          justify-content: space-between;
+        }
       `}
       </style>
       <div className='ui container'>
-        <h2 className='ui header'>Products</h2>
+        <div className='header-wrapper'>
+          <h2 className='ui header'>Products</h2>
+          <button className='ui teal labeled icon button' onClick={() => Router.push('/stock/add')}>
+            <i className='plus icon' />
+            New Product
+          </button>
+        </div>
         <div className='ui form filters'>
           <h3 className='ui header'>Filters</h3>
           <Select
