@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-export default function Table ({ columns, data, page, pageSize, count, onChange, actions = [] }) {
+export default function Table ({ columns, data, page, pageSize, count, onChange, actions = [], header = '' }) {
   const [state, setState] = useState({})
   const pages = count ? Array(Math.ceil(count / pageSize)).fill(0).map((_, i) => i + 1) : []
 
@@ -64,6 +64,11 @@ export default function Table ({ columns, data, page, pageSize, count, onChange,
     <div className='ui container'>
       <table className='ui celled striped table'>
         <thead>
+          {header && (
+            <tr>
+              <th colSpan={columns.length}>{header}</th>
+            </tr>
+          )}
           <tr>
             {columns.map(c => <th key={c}>{c}</th>)}
             {actions.length > 0 && actions.map(a => <th key={a.name}>{a.name}</th>)}
@@ -98,7 +103,7 @@ export default function Table ({ columns, data, page, pageSize, count, onChange,
                 </td>}
             </tr>)}
         </tbody>
-        {pages.length > 0 &&
+        {pages.length > 1 &&
           <tfoot>
             <tr>
               <th colSpan={columns.length + actions.length}>

@@ -24,6 +24,7 @@ function OrderPage ({ user }) {
         name: d.product.name,
         description: d.product.description,
         amount: d.amount,
+        price: d.price,
         total: d.total
       }))
     })))
@@ -37,7 +38,6 @@ function OrderPage ({ user }) {
     return <Error statusCode={403} />
   }
 
-  console.log('orders', orders)
   return (
     <Layout title='Admin panel'>
       <style jsx>{`
@@ -45,18 +45,26 @@ function OrderPage ({ user }) {
           margin-bottom: 20px;
           width: 50%;
         }
+        .order {
+          margin-bottom: 20px;
+        }
       `}
       </style>
       <div className='ui container'>
         <h2 className='ui header'>Orders</h2>
-        {/* <Table
-          columns={['ID', 'Name', 'Description', 'Amount', 'Price', 'Category']}
-          data={orders}
-          page={page}
-          pageSize={pageSize}
-          count={count}
-          onChange={fetchData}
-        /> */}
+        {orders.map(o => (
+          <div className='order' key={o.id}>
+            <Table
+              header={`Order #${o.id} to Seller: ${o.name}, Date: ${o.date}`}
+              columns={['ID', 'Name', 'Description', 'Amount', 'Price', 'Total']}
+              data={o.details}
+              page={1}
+              pageSize={10}
+              count={o.details.length}
+              onChange={() => {}}
+            />
+          </div>
+        ))}
       </div>
     </Layout>
   )
