@@ -14,7 +14,7 @@ export default function Profile ({ data }) {
       <div className='profile'>
         <img
           className='ui medium circular image'
-          src={`https://api.adorable.io/avatars/200/${email}.png`}
+          src={`https://i.pravatar.cc/150?u=${email}`}
         />
         <div className='profile-info'>
           <div>ID: {id}</div>
