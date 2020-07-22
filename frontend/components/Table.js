@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-export default function Table ({ columns, data, page, pageSize, count, onChange, actions = [], header = '' }) {
+export default function Table ({ columns, data, page, pageSize, count, onChange, actions = [], header = null }) {
   const [state, setState] = useState({})
   const pages = count ? Array(Math.ceil(count / pageSize)).fill(0).map((_, i) => i + 1) : []
 

@@ -12,13 +12,14 @@ const listProducts = async (req, res, next) => {
       name: {
         [Op.iLike]: `%${name || ''}%`
       },
-      '$category.name$': {
-        [Op.iLike]: `%${category || ''}%`
-      }
     }
 
     if (user.usertype === 'seller') {
       whereStatement.userId = user.id
+    }
+
+    if (category) {
+      whereStatement.categoryId = category
     }
 
     const { rows, count } = await Product.findAndCountAll({
@@ -64,7 +65,8 @@ const addProduct = async (req, res, next) => {
 
     return res.status(200).send({
       data: product,
-      message: 'A new product was created.'
+      message: 'A new product was created.',
+      errors: []
     })
   } catch (err) {
     return next(err)
