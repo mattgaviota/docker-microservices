@@ -21,3 +21,7 @@ We are using `docker` and `docker-compose` to handle our microservices.
   - `composer install`
   - `php artisan migrate -- seed`
 6. Go to `http://localhost:3000` to check the result
+
+## Architecture
+
+![Architecture](/diagram.png?raw=true "Title")
