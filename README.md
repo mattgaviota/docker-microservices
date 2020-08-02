@@ -20,7 +20,7 @@ We are using `docker` and `docker-compose` to handle our microservices.
   - `docker exec -it --user $(id -u):$(id -g) [container id] bash`
   - `composer install`
   - `php artisan migrate -- seed`
-6. Go to `http://localhost:3000` to check the result
+6. Go to `http://localhost` to check the result
 
 ## Architecture
 

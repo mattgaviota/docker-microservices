@@ -11,4 +11,3 @@ ENV PYTHONUNBUFFERED 1
 COPY ./app/requirements.txt ./
 
 RUN pip install -U pip && pip install -r requirements.txt
-
