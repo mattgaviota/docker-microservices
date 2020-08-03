@@ -21,7 +21,7 @@ def validation(f):
         if not token:
             return make_response({'status': 'fail', 'message': 'Authorization failed'}), 401
         headers = {'Authorization': bearer}
-        validate = requests.get('http://api-php:8080/api/validate', headers=headers)
+        validate = requests.get('http://api-php:8000/api/validate', headers=headers)
         validate_response = validate.json()
         if validate_response['errors']:
             return make_response({'status': 'fail', 'message': 'Authorization failed'}), 401

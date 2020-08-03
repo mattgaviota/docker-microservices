@@ -1,4 +1,4 @@
-FROM alpine:3.10
+FROM alpine:latest
 
 # Install packages
 RUN apk --no-cache add php7 php7-fpm php7-pdo php7-pdo_pgsql php7-pgsql php7-json php7-openssl php7-curl \
@@ -19,7 +19,7 @@ COPY ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 WORKDIR /var/www/html
 
 # Expose the port nginx is reachable on
-EXPOSE 8080
+EXPOSE 8000
 
 # Let supervisord start nginx & php-fpm
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
