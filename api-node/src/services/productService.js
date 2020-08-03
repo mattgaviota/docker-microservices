@@ -1,5 +1,5 @@
 const { Op } = require('sequelize')
-const { Product, Category } = require('../models')
+const { Product, Category, User } = require('../models')
 
 const listProducts = async (req, res, next) => {
   try {
@@ -8,22 +8,37 @@ const listProducts = async (req, res, next) => {
     const limit = pageSize ? parseInt(pageSize) : 10
     const offset = page ? parseInt((page - 1) * limit) : 0
 
+    const whereStatement = {
+      name: {
+        [Op.iLike]: `%${name || ''}%`
+      },
+    }
+
+    if (user.usertype === 'seller') {
+      whereStatement.userId = user.id
+    }
+
+    if (category) {
+      whereStatement.categoryId = category
+    }
+
     const { rows, count } = await Product.findAndCountAll({
+      attributes: ['id', 'name', 'description', 'amount', 'price'],
       limit,
       offset,
-      include: {
+      include: [
+        {
         model: Category,
-        as: 'category'
-      },
-      where: {
-        userId: user.id,
-        name: {
-          [Op.iLike]: `%${name || ''}%`
+        as: 'category',
+        attributes: ['name', 'description']
         },
-        '$category.name$': {
-          [Op.iLike]: `%${category || ''}%`
+        {
+          model: User,
+          as: 'user',
+          attributes: ['name', 'email']
         }
-      }
+      ],
+      where: whereStatement
     })
 
     return res.status(200).send({
@@ -50,7 +65,8 @@ const addProduct = async (req, res, next) => {
 
     return res.status(200).send({
       data: product,
-      message: 'A new product was created.'
+      message: 'A new product was created.',
+      errors: []
     })
   } catch (err) {
     return next(err)

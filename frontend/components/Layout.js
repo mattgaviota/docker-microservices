@@ -3,22 +3,13 @@ import Cookies from 'js-cookie'
 import Head from 'next/head'
 import Profile from './Profile'
 import Menu from './Menu'
-import { getData } from '../services/api'
 
 export default function Layout ({ children, title }) {
-  const [errors, setErrors] = useState([])
   const [user, setUser] = useState(null)
 
-  async function fetchData () {
-    const token = Cookies.get('auth')
-
-    const { data: user, errors } = await getData('/php/api/validate', {}, token)
-    setUser(user)
-    setErrors(errors)
-  }
-
   useEffect(() => {
-    fetchData()
+    const user = Cookies.get('user')
+    setUser(JSON.parse(user))
   }, [])
 
   return (
@@ -27,7 +18,7 @@ export default function Layout ({ children, title }) {
         .container {
           padding: 20px;
         }
-        .menu {
+        .menu-container {
           margin-top: 20px;
         }
       `}
@@ -38,8 +29,8 @@ export default function Layout ({ children, title }) {
       <div className='four wide column'>
         <h1 className='ui header'>{title}</h1>
         {user && <Profile data={user} />}
-        <div className='menu'>
-          <Menu />
+        <div className='menu-container'>
+          <Menu data={user} />
         </div>
       </div>
       <div className='twelve wide column'>

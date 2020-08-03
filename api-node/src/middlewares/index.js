@@ -9,7 +9,7 @@ const isAuth = async (req, res, next) => {
       throw new Error('authentication fail')
     }
 
-    const url = 'http://api-php:8080/api/validate'
+    const url = 'http://api-php:8000/api/validate'
     const response = await fetch(url, {
       headers: {
         Authorization: `Bearer ${token}`

@@ -1,38 +1,23 @@
-from fastapi import Depends, FastAPI, HTTPException, Request
-from middleware import Authenticate
-from sqlalchemy.orm import Session
-from typing import List
+from flask import Flask
+from flask_cors import CORS
+from routes import bp
+from models import db
+from schemas import ma
+import config
 
-from database import crud, models, schemas
-from database.database import SessionLocal
+def create_app(environment):
+    app = Flask(__name__)
+    app.config.from_object("config.DevelopmentConfig")
+    CORS(app)
+    app.register_blueprint(bp, url_prefix='/api')
+    with app.app_context():
+        db.init_app(app)
+        ma.init_app(app)
+        db.create_all()
 
-app = FastAPI(openapi_url="/python/openapi.json",
-              docs_url="/api/docs", redoc_url="/api/redoc")
-
-app.add_middleware(Authenticate)
-
-# Dependency
-
-
-def get_db():
-    try:
-        db = SessionLocal()
-        yield db
-    finally:
-        db.close()
+    return app
 
 
-@app.get("/api")
-def read_root(request: Request):
-    user = request.state
-    return {"message": user}
-
-
-@app.get("/api/orders", response_model=List[schemas.Order])
-def get_orders(request: Request, db: Session = Depends(get_db)):
-    user = request.state
-    if user.usertype == 'seller':
-        orders = crud.get_order_by_seller(db, user.user_id)
-    else:
-        orders = crud.get_order_by_buyer(db, user.user_id)
-    return orders
+if __name__ == "__main__":
+    app = create_app(environment)
+    app.run(host='0.0.0.0', debug=True, port=80)
