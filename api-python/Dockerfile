@@ -1,4 +1,4 @@
-FROM tiangolo/uwsgi-nginx-flask:python3.8-alpine
+FROM tiangolo/meinheld-gunicorn-flask:python3.8-alpine3.11
 
 RUN apk --no-cache add build-base bash postgresql-dev
 
